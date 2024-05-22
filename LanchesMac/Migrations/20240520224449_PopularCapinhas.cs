@@ -8,7 +8,7 @@ namespace LanchesMac.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.Sql("INSERT INTO capinhas(CategoriaId,Marca,Modelo,Preco,ImagemUrl,ImagemThumbUrl,Disponibilidade) VALUES(1,'Samsung','S24','29.99','PretoSs24','PretoSs24',1)");
+            migrationBuilder.Sql("INSERT INTO capinhas(CategoriaId,Marca,Modelo,Preco,ImagemUrl,ImagemThumbUrl,Disponibilidade) VALUES(1,'Samsung','S24','29.99',''images/PretoSs24.jpg'','PretoSs24',1)");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

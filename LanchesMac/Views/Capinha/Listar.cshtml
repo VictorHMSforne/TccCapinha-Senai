@@ -1,0 +1,29 @@
+﻿@model IEnumerable<LanchesMac.Models.Capinha> //view fortemente tipada do tipo List
+
+<style>
+    .imagem-capinha {
+        width: 200px; /* Defina a largura desejada */
+        height: auto; /* Defina a altura como "auto" para manter a proporção original da imagem */
+    }
+</style>
+
+<div>
+    <h2>@ViewData["Titulo"]</h2>
+</div>
+<hr />
+
+
+
+
+
+
+@foreach (var capinha in Model) // essa variável Model, ela personaliza o @model, ou seja, vai personalizar os Modelos capinha
+{
+    <div>
+        <h5>@capinha.Marca</h5>
+        <h6>@capinha.Modelo</h6>
+        <p><img class="imagem-capinha" src="~/@capinha.ImagemUrl" /></p>
+        <h6>Preço : R$ @capinha.Preco</h6>
+
+    </div>
+}
