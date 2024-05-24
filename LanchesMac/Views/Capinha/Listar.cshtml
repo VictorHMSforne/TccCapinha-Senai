@@ -1,4 +1,6 @@
-﻿@model IEnumerable<LanchesMac.Models.Capinha> //view fortemente tipada do tipo List, onde era exibido apenas os dados das capinhas
+﻿@model CapinhaListViewModel //view fortemente tipada do tipo List, onde era exibido apenas os dados das capinhas por meio deste codigo: IEnumerable<LanchesMac.Models.Capinha>
+    <!--Agora com o CapinhaListViewModel posso usar a categoria, porque anteriormente era apenas os dados das capinhas-->
+
 
 @* <style>
     .imagem-capinha {
@@ -18,7 +20,7 @@
 
 <div class="container">
     <div class="row">
-        @foreach (var capinha in Model) // essa variável Model, ela personaliza o @model, ou seja, vai personalizar os Modelos capinha
+        @foreach (var capinha in Model.Capinhas) // essa variável Model, ela personaliza o @model, ou seja, vai personalizar os Modelos capinha
         {
             <div class="col-sm4 col-md-4 col-lg-4">
                 <p><img class="img-fluid" src="~/@capinha.ImagemUrl" /></p>
