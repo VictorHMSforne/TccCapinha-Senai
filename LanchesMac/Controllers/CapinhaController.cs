@@ -16,7 +16,7 @@ namespace LanchesMac.Controllers
         {
             //var capinhas = _capinhaRepository.Capinhas;
 
-            // Revisar esses conceitos:ViewBag,ViewData,TempData e também os Repositories
+            // Revisar esses conceitos:ViewBag,ViewData,TempData os Repositories, também _ViewStart e _ViewImports
 
             ViewData["Titulo"] = "Todas as Capinhas";
             //ViewData["Data"] = DateTime.Now;
