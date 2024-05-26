@@ -1,0 +1,58 @@
+﻿@model CarrinhoCompraViewModel
+
+
+<div class="container">
+    <div class="row">
+        <div class="d-flex align-items-center mb-2">
+            <img src="~/images/cart.png" style="height: 2.9rem; width: auto; margin-right: 0.5rem; margin-left: -1rem;" />
+            <h4 class="m-0"> Seu Carrinho de Compras : </h4>
+        </div>
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Quantidade</th>
+                    <th>Marca da Capinha</th>
+                    <th>Modelo da Capinha</th>
+                    <th style="text-align: right;">Preço</th>
+                    <th style="text-align: right;">SubTotal</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.CarrinhoCompra.CarrinhoCompraItems)
+                {
+                    <tr>
+                        <td style="text-align: center;">@item.Quantidade</td>
+                        <td style="text-align: left;">@item.Capinha.Marca</td>
+                        <td style="text-align: left;">@item.Capinha.Modelo</td>
+                        <td style="text-align: right;"> R$ @item.Capinha.Preco</td>
+                        <td style="text-align: right;">
+                            @((item.Quantidade * Convert.ToInt32(item.Capinha.Preco)).ToString("c")) <!--Conferir depois-->
+                        </td>
+                        <td class="text-center">
+                            <a asp-controller="CarrinhoCompra" asp-action="RemoverItemDoCarrinhoCompra"
+                               asp-route-capinhaId="@item.Capinha.CapinhaId"> <img src="~/images/lixeira.png" />
+                            </a>
+                        </td>    
+                    </tr>
+                }
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="4" style="text-align: right;">Total:</td>
+                    <td style="text-align: right;">
+                        @Model.CarrinhoCompraTotal.ToString("c") <!--Conferir depois-->
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+
+        <div style="text-align: right;">
+            <div class="btn-group">
+                <a class="btn btn-success" asp-controller="Pedido" asp-action="Checkout">Finalizar Pedido</a>
+                &nbsp;&nbsp;&nbsp;<!--Isso Cria um espaço entre os botões-->
+                <a class="btn btn-primary" asp-controller="Capinha" asp-action="Listar">Continuar Comprando</a>
+            </div>
+        </div>
+        <br />
+    </div>
+</div>

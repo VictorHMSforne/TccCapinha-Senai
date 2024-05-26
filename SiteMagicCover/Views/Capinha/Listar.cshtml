@@ -18,7 +18,7 @@
     <div class="row">
         @foreach (var capinha in Model.Capinhas) // essa variável Model, ela personaliza o @model, ou seja, vai personalizar os Modelos capinha
         {
-            <partial name="_CapinhasResumo" />
+            <partial name="_CapinhasResumo" for="@capinha" />
         }
     </div>
 </div>

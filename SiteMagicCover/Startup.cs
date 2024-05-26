@@ -2,6 +2,7 @@
 using SiteMagicCover.Repositories;
 using SiteMagicCover.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using SiteMagicCover.Models;
 
 namespace SiteMagicCover;
 public class Startup
@@ -21,8 +22,13 @@ public class Startup
 
         services.AddTransient<ICapinhaRepository, CapinhaRepository>(); // revisar esse registro
         services.AddTransient<ICategoriaRepository, CategoriaRepository>();
+        services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>(); //esse Singleton, signfica que o tempo de vida do HttpContext vai durar enquanto a aplicação estiver rodando 
+        services.AddScoped(sp => CarrinhoCompra.GetCarrinho(sp));
 
         services.AddControllersWithViews();
+
+        services.AddMemoryCache();
+        services.AddSession();
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -40,6 +46,8 @@ public class Startup
         }
         app.UseHttpsRedirection();
         app.UseStaticFiles();
+
+        app.UseSession();
 
         app.UseRouting();
 
