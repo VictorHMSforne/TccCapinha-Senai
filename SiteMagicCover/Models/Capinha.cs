@@ -31,6 +31,8 @@ namespace SiteMagicCover.Models
         [StringLength(200, ErrorMessage = "Deve ter no máximo 200 caracteres")]
         public string ImagemThumbUrl  { get; set; }
 
+        
+
         [Display(Name = "Disponível ?")]
         public bool Disponibilidade { get; set; }
 
