@@ -13,30 +13,51 @@ namespace SiteMagicCover.Controllers
         {
             _capinhaRepository = capinhaRepository;
         }
-        public IActionResult Listar(string catergoria)
+        public IActionResult Listar(string categoria)
         {
-
-            //rever aula 57
             IEnumerable<Capinha> capinhas;
             string categoriaAtual = string.Empty;
-            if (string.IsNullOrEmpty(catergoria))
+
+            if (string.IsNullOrEmpty(categoria))
             {
-                capinhas = _capinhaRepository.Capinhas.OrderBy(a => a.CapinhaId);
-                categoriaAtual = "Todos os Lanches";
+                capinhas = _capinhaRepository.Capinhas.OrderBy(c => c.CapinhaId);
+                categoriaAtual = "Todas as Capinhas";
+                ViewData["Titulo"] = categoriaAtual;
             }
             else
             {
-                if (string.Equals("Padrão",catergoria,StringComparison.OrdinalIgnoreCase))
+                if (string.Equals("Padrao", categoria, StringComparison.OrdinalIgnoreCase))
                 {
-                    capinhas = _capinhaRepository.Capinhas.Where(a => a.Categoria.CategoriaNome.Equals("Padrão")).OrderBy(a => a.Marca);
+                    capinhas = _capinhaRepository.Capinhas
+                        .Where(c => c.Categoria.CategoriaNome.Equals("Padrao", StringComparison.OrdinalIgnoreCase))
+                        .OrderBy(c => c.Marca)
+                        .ToList();
+                    ViewData["Titulo"] = "Padrão";
+                }
+                else if (string.Equals("Tech", categoria, StringComparison.OrdinalIgnoreCase))
+                {
+                    capinhas = _capinhaRepository.Capinhas
+                        .Where(c => c.Categoria.CategoriaNome.Equals("Tech", StringComparison.OrdinalIgnoreCase))
+                        .OrderBy(c => c.Marca)
+                        .ToList();
+                    ViewData["Titulo"] = "Tech";
                 }
                 else
                 {
-                    capinhas = _capinhaRepository.Capinhas.Where(a => a.Categoria.CategoriaNome.Equals("Tech")).OrderBy(a => a.Marca);
+                    capinhas = _capinhaRepository.Capinhas
+                        .Where(c => c.Categoria.CategoriaNome.Equals(categoria, StringComparison.OrdinalIgnoreCase))
+                        .OrderBy(c => c.Marca)
+                        .ToList();
+                    if (!capinhas.Any())
+                    {
+                        ViewData["Titulo"] = "Nenhuma capinha encontrada";
+                    }
+                    else
+                    {
+                        ViewData["Titulo"] = categoria;
+                    }
                 }
-
-                categoriaAtual = catergoria;
-                 
+                categoriaAtual = categoria;
             }
             var capinhasListViewModel = new CapinhaListViewModel
             {
@@ -44,13 +65,15 @@ namespace SiteMagicCover.Controllers
                 CategoriaAtual = categoriaAtual
             };
 
+            
+
             return View(capinhasListViewModel);
 
             //var capinhas = _capinhaRepository.Capinhas;
 
             // Revisar esses conceitos:ViewBag,ViewData,TempData os Repositories, também _ViewStart e _ViewImports
 
-            //ViewData["Titulo"] = "Todas as Capinhas";
+            
             //ViewData["Data"] = DateTime.Now;
             //TempData["Nome"] = "Rodolfo";
 
