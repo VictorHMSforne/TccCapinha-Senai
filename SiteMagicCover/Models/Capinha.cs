@@ -21,7 +21,7 @@ namespace SiteMagicCover.Models
 
         [Required(ErrorMessage = "O Preço deve ser informado")]
         [Display(Name = "Preço Celular")]
-        public string Preco { get; set; }
+        public double Preco { get; set; }  //mudei aqui
 
         [Display(Name = "Caminho Imagem Normal")]
         [StringLength(200, ErrorMessage = "Deve ter no máximo 200 caracteres")]
