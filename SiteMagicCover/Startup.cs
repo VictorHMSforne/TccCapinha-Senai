@@ -56,8 +56,13 @@ public class Startup
         app.UseEndpoints(endpoints =>
         {
             endpoints.MapControllerRoute(
+                name: "categoriaFiltro",
+                pattern:"Capinha/{action}/{categoria?}",
+                defaults: new { Controller = "Capinha", action = "Listar"});
+
+            endpoints.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}");
+                pattern: "{controller=Home}/{action=Index}/{id?}"); // Isso aqui é um roteamento, quando tem esse ?, significa que o parâmetro opcional
         });
     }
 }

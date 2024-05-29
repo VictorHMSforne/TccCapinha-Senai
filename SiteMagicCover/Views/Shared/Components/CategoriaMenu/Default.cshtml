@@ -1,0 +1,34 @@
+﻿<style>
+    .transparent-btn {
+        background-color: transparent !important;
+        border-color: transparent !important;
+        color: black; 
+    }
+
+    .transparent-btn:focus, .transparent-btn:hover {
+        color: black !important; 
+    }
+
+    
+</style>
+
+
+<div class="dropdown">
+    <a class="btn btn-secondary dropdown-toggle transparent-btn" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+        Capinhas
+    </a>
+    <ul class="dropdown-menu">
+        @foreach (var categoria in Model)
+        {
+            <li><a class="dropdown-item"  asp-controller="Capinha" asp-action="Listar" style="color:black" 
+                asp-route-categoria="@categoria.CategoriaNome">@categoria.CategoriaNome</a>
+            </li>
+        }
+        <li class="dropdown-divider"></li>
+        <li>
+            <a class="dropdown-item" asp-controller="Capinha" asp-action="Listar" style="color:black"
+               asp-route-categoria="">Todas as Capinhas</a>
+        </li>
+    </ul>
+
+</div>

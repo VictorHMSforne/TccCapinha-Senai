@@ -26,38 +26,42 @@ namespace SiteMagicCover.Controllers
             }
             else
             {
-                if (string.Equals("Padrao", categoria, StringComparison.OrdinalIgnoreCase))
-                {
-                    capinhas = _capinhaRepository.Capinhas
-                        .Where(c => c.Categoria.CategoriaNome.Equals("Padrao", StringComparison.OrdinalIgnoreCase))
-                        .OrderBy(c => c.Marca)
-                        .ToList();
-                    ViewData["Titulo"] = "Padrão";
-                }
-                else if (string.Equals("Tech", categoria, StringComparison.OrdinalIgnoreCase))
-                {
-                    capinhas = _capinhaRepository.Capinhas
-                        .Where(c => c.Categoria.CategoriaNome.Equals("Tech", StringComparison.OrdinalIgnoreCase))
-                        .OrderBy(c => c.Marca)
-                        .ToList();
-                    ViewData["Titulo"] = "Tech";
-                }
-                else
-                {
-                    capinhas = _capinhaRepository.Capinhas
-                        .Where(c => c.Categoria.CategoriaNome.Equals(categoria, StringComparison.OrdinalIgnoreCase))
-                        .OrderBy(c => c.Marca)
-                        .ToList();
-                    if (!capinhas.Any())
-                    {
-                        ViewData["Titulo"] = "Nenhuma capinha encontrada";
-                    }
-                    else
-                    {
-                        ViewData["Titulo"] = categoria;
-                    }
-                }
+                //if (string.Equals("Padrao", categoria, StringComparison.OrdinalIgnoreCase))
+                //{
+                //    capinhas = _capinhaRepository.Capinhas
+                //        .Where(c => c.Categoria.CategoriaNome.Equals("Padrao", StringComparison.OrdinalIgnoreCase))
+                //        .OrderBy(c => c.Marca)
+                //        .ToList();
+                //    ViewData["Titulo"] = "Padrão";
+                //}
+                //else if (string.Equals("Tech", categoria, StringComparison.OrdinalIgnoreCase))
+                //{
+                //    capinhas = _capinhaRepository.Capinhas
+                //        .Where(c => c.Categoria.CategoriaNome.Equals("Tech", StringComparison.OrdinalIgnoreCase))
+                //        .OrderBy(c => c.Marca)
+                //        .ToList();
+                //    ViewData["Titulo"] = "Tech";
+                //}
+                //else
+                //{
+                //    capinhas = _capinhaRepository.Capinhas
+                //        .Where(c => c.Categoria.CategoriaNome.Equals(categoria, StringComparison.OrdinalIgnoreCase))
+                //        .OrderBy(c => c.Marca)
+                //        .ToList();
+                //    if (!capinhas.Any())
+                //    {
+                //        ViewData["Titulo"] = "Nenhuma capinha encontrada";
+                //    }
+                //    else
+                //    {
+                //        ViewData["Titulo"] = categoria;
+                //    }
+                //}
+                capinhas = _capinhaRepository.Capinhas
+                    .Where(c => c.Categoria.CategoriaNome.Equals(categoria))
+                    .OrderBy(c => c.Marca);
                 categoriaAtual = categoria;
+                ViewData["Titulo"] = categoriaAtual;
             }
             var capinhasListViewModel = new CapinhaListViewModel
             {
