@@ -19,6 +19,11 @@ namespace SiteMagicCover.Models
         [StringLength(80, ErrorMessage = "Deve ter no máximo 80 caracteres")]
         public string Modelo { get; set; }
 
+        [Required(ErrorMessage = "O nome do Celular deve ser informado")]
+        [Display(Name = "Nome Do Celular")]
+        [StringLength(80, ErrorMessage = "Deve ter no máximo 80 caracteres")]
+        public string NomeCelular { get; set; }
+
         [Required(ErrorMessage = "O Preço deve ser informado")]
         [Display(Name = "Preço Celular")]
         public double Preco { get; set; }  //mudei aqui

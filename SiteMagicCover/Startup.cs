@@ -3,6 +3,7 @@ using SiteMagicCover.Repositories;
 using SiteMagicCover.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using SiteMagicCover.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace SiteMagicCover;
 public class Startup
@@ -20,8 +21,26 @@ public class Startup
         services.AddDbContext<AppDbContext>(options => 
             options.UseMySQL(Configuration.GetConnectionString("DefaultConnection")));
 
+        services.AddIdentity<IdentityUser, IdentityRole>()
+                .AddEntityFrameworkStores<AppDbContext>()
+                .AddDefaultTokenProviders();
+
+        // PARA CONFIGURA A SENHA
+
+        //services.Configure<IdentityOptions>(options =>
+        //{
+        //    options.Password.RequireDigit = true;
+        //    options.Password.RequireLowercase = true;
+        //    options.Password.RequireUppercase = true;
+        //    options.Password.RequireNonAlphanumeric = true;
+        //    options.Password.RequiredLength = 6;
+        //    options.Password.RequiredUniqueChars = 1;
+        //});
+
         services.AddTransient<ICapinhaRepository, CapinhaRepository>(); // revisar esse registro
         services.AddTransient<ICategoriaRepository, CategoriaRepository>();
+        services.AddTransient<IClienteRepository, ClienteRepository>();
+
         services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>(); //esse Singleton, signfica que o tempo de vida do HttpContext vai durar enquanto a aplicação estiver rodando 
         services.AddScoped(sp => CarrinhoCompra.GetCarrinho(sp));
 
@@ -46,11 +65,11 @@ public class Startup
         }
         app.UseHttpsRedirection();
         app.UseStaticFiles();
+        app.UseRouting();
 
         app.UseSession();
 
-        app.UseRouting();
-
+        app.UseAuthentication();
         app.UseAuthorization();
 
         app.UseEndpoints(endpoints =>

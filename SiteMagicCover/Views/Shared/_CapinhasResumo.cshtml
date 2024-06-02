@@ -10,10 +10,9 @@
 
 <div class="col-sm4 col-md-4 col-lg-4">
     <p><img class="img-fluid" src="~/@Model.ImagemUrl" /></p>
-    <!--Adicionar futuramente o nome da capinha Ex: Capinha tech preta no Model Capinha-->
-    <h5>@Model.Marca</h5>
-    <h6>@Model.Modelo</h6>
-    <h6>Preço : @Model.Preco.ToString("c")</h6>
+    <h5>@Model.NomeCelular</h5>
+    <h6>@Model.Marca @Model.Modelo</h6>
+    <h8>Preço : @Model.Preco.ToString("c")</h8>
     <a class="btn btn-primary" asp-controller="CarrinhoCompra" asp-action="AdicionarItemNoCarrinhoCompra" asp-route-capinhaId="@Model.CapinhaId">Adicionar ao Carrinho</a>
     
     <button type="button" class="btn btn-secondary" style="padding: 0.25rem 0.5rem; font-size: 0.875rem;" data-bs-toggle="modal" data-bs-target="#CapinhaModal">

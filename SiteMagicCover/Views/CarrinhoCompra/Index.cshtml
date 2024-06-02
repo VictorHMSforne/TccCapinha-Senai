@@ -11,8 +11,9 @@
             <thead>
                 <tr>
                     <th>Quantidade</th>
-                    <th>Marca da Capinha</th>
-                    <th>Modelo da Capinha</th>
+                    <th>Nome Da Capinha</th>
+                    <th>Marca</th>
+                    <th>Modelo</th>
                     <th style="text-align: right;">Preço</th>
                     <th style="text-align: right;">SubTotal</th>
                 </tr>
@@ -28,6 +29,7 @@
                             </a>
                             
                         </td>
+                        <td style="text-align: left;">@item.Capinha.NomeCelular</td>
                         <td style="text-align: left;">@item.Capinha.Marca</td>
                         <td style="text-align: left;">@item.Capinha.Modelo</td>
                         <td style="text-align: right;"> @item.Capinha.Preco.ToString("c")</td>
@@ -44,7 +46,7 @@
             </tbody>
             <tfoot>
                 <tr>
-                    <td colspan="4" style="text-align: right;">Total:</td>
+                    <td colspan="5" style="text-align: right;">Total:</td>
                     <td style="text-align: right;">
                         @Model.CarrinhoCompraTotal.ToString("c") <!--Conferir depois-->
                     </td>
@@ -54,7 +56,7 @@
 
         <div style="text-align: right;">
             <div class="btn-group">
-                <a class="btn btn-success" asp-controller="Pedido" asp-action="Checkout">Finalizar Pedido</a>
+                <a class="btn btn-success" asp-controller="ClientePedido" asp-action="Checkout">Finalizar Pedido</a>
                 &nbsp;&nbsp;&nbsp;<!--Isso Cria um espaço entre os botões-->
                 <a class="btn btn-primary" asp-controller="Capinha" asp-action="Listar">Continuar Comprando</a>
             </div>

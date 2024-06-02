@@ -26,37 +26,7 @@ namespace SiteMagicCover.Controllers
             }
             else
             {
-                //if (string.Equals("Padrao", categoria, StringComparison.OrdinalIgnoreCase))
-                //{
-                //    capinhas = _capinhaRepository.Capinhas
-                //        .Where(c => c.Categoria.CategoriaNome.Equals("Padrao", StringComparison.OrdinalIgnoreCase))
-                //        .OrderBy(c => c.Marca)
-                //        .ToList();
-                //    ViewData["Titulo"] = "Padrão";
-                //}
-                //else if (string.Equals("Tech", categoria, StringComparison.OrdinalIgnoreCase))
-                //{
-                //    capinhas = _capinhaRepository.Capinhas
-                //        .Where(c => c.Categoria.CategoriaNome.Equals("Tech", StringComparison.OrdinalIgnoreCase))
-                //        .OrderBy(c => c.Marca)
-                //        .ToList();
-                //    ViewData["Titulo"] = "Tech";
-                //}
-                //else
-                //{
-                //    capinhas = _capinhaRepository.Capinhas
-                //        .Where(c => c.Categoria.CategoriaNome.Equals(categoria, StringComparison.OrdinalIgnoreCase))
-                //        .OrderBy(c => c.Marca)
-                //        .ToList();
-                //    if (!capinhas.Any())
-                //    {
-                //        ViewData["Titulo"] = "Nenhuma capinha encontrada";
-                //    }
-                //    else
-                //    {
-                //        ViewData["Titulo"] = categoria;
-                //    }
-                //}
+                
                 capinhas = _capinhaRepository.Capinhas
                     .Where(c => c.Categoria.CategoriaNome.Equals(categoria))
                     .OrderBy(c => c.Marca);
@@ -72,8 +42,7 @@ namespace SiteMagicCover.Controllers
             
 
             return View(capinhasListViewModel);
-
-            //var capinhas = _capinhaRepository.Capinhas;
+     
 
             // Revisar esses conceitos:ViewBag,ViewData,TempData os Repositories, também _ViewStart e _ViewImports
 
@@ -97,6 +66,41 @@ namespace SiteMagicCover.Controllers
             //CapinhaListViewModel.CategoriaAtual = "Categoria Atual";
 
 
+        }
+
+        public ViewResult Pesquisar(string searchString)
+        {
+            IEnumerable<Capinha> capinhas;
+            string categoriaAtual = string.Empty;
+
+            if (string.IsNullOrEmpty(searchString))
+            {
+                capinhas = _capinhaRepository.Capinhas.OrderBy(c => c.CapinhaId);
+                categoriaAtual = "Todas as Capinhas";
+                ViewData["Titulo"] = categoriaAtual;
+
+            }
+            else
+            {
+                capinhas = _capinhaRepository.Capinhas
+                    .Where(c => c.NomeCelular.ToLower().Contains(searchString.ToLower()));
+                if (capinhas.Any())
+                {
+                    categoriaAtual = "Capinhas";
+                    ViewData["Titulo"] = categoriaAtual;
+                }
+                else
+                {
+                    categoriaAtual = "Nenhuma capinha foi encontrada";
+                    ViewData["Titulo"] = categoriaAtual;
+                }
+                      
+            }
+            return View("~/Views/Capinha/Listar.cshtml", new CapinhaListViewModel
+            {
+                Capinhas = capinhas,
+                CategoriaAtual = categoriaAtual
+            });
         }
     }
 }
