@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using SiteMagicCover.Models;
 using SiteMagicCover.Repositories.Interfaces;
 using SiteMagicCover.ViewModels;
@@ -30,6 +31,7 @@ namespace SiteMagicCover.Controllers
             return View(carrinhoCompraVM);
         }
 
+        [Authorize]
         public IActionResult AdicionarItemNoCarrinhoCompra(int capinhaId)
         {
             var capinhaSelecionada = _capinhaRepository.Capinhas
@@ -43,6 +45,7 @@ namespace SiteMagicCover.Controllers
             return RedirectToAction("Index");
         }
 
+        [Authorize]
         public IActionResult RemoverItemDoCarrinhoCompra(int capinhaId)
         {
             var capinhaSelecionada = _capinhaRepository.Capinhas

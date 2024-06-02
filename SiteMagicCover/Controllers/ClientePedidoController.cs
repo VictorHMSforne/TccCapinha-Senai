@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using SiteMagicCover.Models;
 using SiteMagicCover.Repositories.Interfaces;
 using SiteMagicCover.ViewModels;
@@ -9,19 +11,37 @@ namespace SiteMagicCover.Controllers
     {
        private readonly IClienteRepository _clienteRepository;
        private readonly CarrinhoCompra _carrinhoCompra;
+        private readonly UserManager<IdentityUser> _userManager;
 
-        public ClientePedidoController(IClienteRepository clienteRepository, CarrinhoCompra carrinhoCompra)
+        public ClientePedidoController(IClienteRepository clienteRepository, CarrinhoCompra carrinhoCompra, UserManager<IdentityUser> userManager)
         {
             _clienteRepository = clienteRepository;
             _carrinhoCompra = carrinhoCompra;
+            _userManager = userManager;
         }
 
+        [Authorize]
         [HttpGet]
-        public IActionResult Checkout() 
+        public async Task<IActionResult> Checkout() 
         {
-          return View();
+            var currentUser = await _userManager.GetUserAsync(User);
+            if (currentUser != null) 
+            {
+                var clienteEPedidoViewModel = new ClienteEPedidoViewModel
+                {
+                    Email = currentUser.Email,
+                };    
+                return View(clienteEPedidoViewModel);
+            }
+            
+            else
+            {
+                // Se o usuário não estiver autenticado, redirecione para a página de login
+                return RedirectToAction("Login", "Account");
+            }
         }
 
+        [Authorize]
         [HttpPost]
         public IActionResult Checkout(ClienteEPedidoViewModel clienteEPedidoViewModel)
         {
@@ -48,10 +68,14 @@ namespace SiteMagicCover.Controllers
             //Atriuir os valores obtidos ao pedido
             clienteEPedidoViewModel.TotalItensPedido = totalItensPedido;
             clienteEPedidoViewModel.PedidoTotal = precoTotal;
+            
+            
 
             //Aqui é feito a validação dos dados do pedido
             if (ModelState.IsValid) // Se não possuir nenhum erro, ele retorna true
             {
+                
+                
                 //Criação do pedido e os detalhes
                 _clienteRepository.CriarPedido(clienteEPedidoViewModel);              //VERIFICAR DEPOIS AQUI
                 clienteEPedidoViewModel.ClientePedidos = _clienteRepository.GetPedidosDoCliente(clienteEPedidoViewModel.ClienteId);

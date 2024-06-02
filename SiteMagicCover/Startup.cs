@@ -25,6 +25,12 @@ public class Startup
                 .AddEntityFrameworkStores<AppDbContext>()
                 .AddDefaultTokenProviders();
 
+        //services.ConfigureApplicationCookie(options =>
+        //{
+        //    options.LoginPath = "/Account/Login";    ESSE CODIGO ESTA IMPLÍCITO
+            
+        //});
+
         // PARA CONFIGURA A SENHA
 
         //services.Configure<IdentityOptions>(options =>

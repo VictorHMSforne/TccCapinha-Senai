@@ -32,9 +32,12 @@
                             @await Component.InvokeAsync("CarrinhoCompraResumo")
                         </li>
                         <form class="d-flex ms-3" asp-controller="Capinha" asp-action="Pesquisar" method="get">
-                            <input class="form-control me-2" type="text" name="searchString" placeholder="Nome da Capinha" aria-label="Search" value="@ViewData["searchString"]">
+                            <input class="form-control me-2" type="text" name="searchString" placeholder="Procurar Capinha" aria-label="Search" value="@ViewData["searchString"]">
                             <button class="btn btn-outline-success" type="submit">Pesquisar</button>
                         </form>
+                        <li class="nav-item">
+                            @await Html.PartialAsync("_LoginPartial")
+                        </li>
                     </ul>
                 </div>
             </div>
