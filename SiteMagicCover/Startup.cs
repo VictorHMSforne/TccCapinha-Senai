@@ -4,6 +4,8 @@ using SiteMagicCover.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using SiteMagicCover.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Hosting;
+
 
 namespace SiteMagicCover;
 public class Startup
@@ -46,9 +48,21 @@ public class Startup
         services.AddTransient<ICapinhaRepository, CapinhaRepository>(); // revisar esse registro
         services.AddTransient<ICategoriaRepository, CategoriaRepository>();
         services.AddTransient<IClienteRepository, ClienteRepository>();
+        services.AddTransient<ICapinhaPersonalizadaRepository, CapinhaPersonalizadaRepository>();
+
+        services.AddScoped<UserManager<IdentityUser>>();
+        services.AddScoped<SignInManager<IdentityUser>>(); //QUALQUER COISA VIR AQUI E TIRAR
+
+        //services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>(); 
+        //services.AddSingleton<IWebHostEnvironment, WebHostEnvironment>(); 
+
+
+
 
         services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>(); //esse Singleton, signfica que o tempo de vida do HttpContext vai durar enquanto a aplicação estiver rodando 
         services.AddScoped(sp => CarrinhoCompra.GetCarrinho(sp));
+
+        
 
         services.AddControllersWithViews();
 

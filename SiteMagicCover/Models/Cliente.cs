@@ -34,6 +34,8 @@ namespace SiteMagicCover.Models
 
         public List<ClienteEndereco> ClienteEnderecos { get; set; }
         public List<ClientePedido> ClientePedidos { get; set; }
+        public List<CapinhaPersonalizada> CapinhaPersonalizadas { get; set; }
+
 
 
     }

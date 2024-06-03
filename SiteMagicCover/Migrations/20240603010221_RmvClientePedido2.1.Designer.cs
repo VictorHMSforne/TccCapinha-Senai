@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SiteMagicCover.Context;
 
@@ -10,9 +11,10 @@ using SiteMagicCover.Context;
 namespace SiteMagicCover.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240603010221_RmvClientePedido2.1")]
+    partial class RmvClientePedido21
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -262,9 +264,6 @@ namespace SiteMagicCover.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<int>("ClienteId")
-                        .HasColumnType("int");
-
                     b.Property<string>("ImagemFinal")
                         .HasMaxLength(200)
                         .HasColumnType("varchar(200)");
@@ -289,8 +288,6 @@ namespace SiteMagicCover.Migrations
 
                     b.HasKey("CapinhaPersoId");
 
-                    b.HasIndex("ClienteId");
-
                     b.ToTable("CapinhasPersonalizadas");
                 });
 
@@ -303,9 +300,6 @@ namespace SiteMagicCover.Migrations
                     b.Property<int?>("CapinhaId")
                         .HasColumnType("int");
 
-                    b.Property<int>("CapinhaPersoId")
-                        .HasColumnType("int");
-
                     b.Property<string>("CarrinhoCompraId")
                         .HasMaxLength(200)
                         .HasColumnType("varchar(200)");
@@ -316,8 +310,6 @@ namespace SiteMagicCover.Migrations
                     b.HasKey("CarinhoCompraItemId");
 
                     b.HasIndex("CapinhaId");
-
-                    b.HasIndex("CapinhaPersoId");
 
                     b.ToTable("CarrinhoCompraItens");
                 });
@@ -466,8 +458,6 @@ namespace SiteMagicCover.Migrations
 
                     b.HasIndex("CapinhaId");
 
-                    b.HasIndex("CapinhaPersoId");
-
                     b.HasIndex("ClienteId");
 
                     b.ToTable("ClientePedido");
@@ -535,32 +525,13 @@ namespace SiteMagicCover.Migrations
                     b.Navigation("Categoria");
                 });
 
-            modelBuilder.Entity("SiteMagicCover.Models.CapinhaPersonalizada", b =>
-                {
-                    b.HasOne("SiteMagicCover.Models.Cliente", "Cliente")
-                        .WithMany("CapinhaPersonalizadas")
-                        .HasForeignKey("ClienteId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Cliente");
-                });
-
             modelBuilder.Entity("SiteMagicCover.Models.CarrinhoCompraItem", b =>
                 {
                     b.HasOne("SiteMagicCover.Models.Capinha", "Capinha")
                         .WithMany()
                         .HasForeignKey("CapinhaId");
 
-                    b.HasOne("SiteMagicCover.Models.CapinhaPersonalizada", "CapinhaPersonalizada")
-                        .WithMany("CarrinhoCompraItens")
-                        .HasForeignKey("CapinhaPersoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Capinha");
-
-                    b.Navigation("CapinhaPersonalizada");
                 });
 
             modelBuilder.Entity("SiteMagicCover.Models.ClienteEndereco", b =>
@@ -582,12 +553,6 @@ namespace SiteMagicCover.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("SiteMagicCover.Models.CapinhaPersonalizada", "CapinhaPersonalizada")
-                        .WithMany("ClientePedidos")
-                        .HasForeignKey("CapinhaPersoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("SiteMagicCover.Models.Cliente", "Cliente")
                         .WithMany("ClientePedidos")
                         .HasForeignKey("ClienteId")
@@ -596,16 +561,7 @@ namespace SiteMagicCover.Migrations
 
                     b.Navigation("Capinha");
 
-                    b.Navigation("CapinhaPersonalizada");
-
                     b.Navigation("Cliente");
-                });
-
-            modelBuilder.Entity("SiteMagicCover.Models.CapinhaPersonalizada", b =>
-                {
-                    b.Navigation("CarrinhoCompraItens");
-
-                    b.Navigation("ClientePedidos");
                 });
 
             modelBuilder.Entity("SiteMagicCover.Models.Categoria", b =>
@@ -615,8 +571,6 @@ namespace SiteMagicCover.Migrations
 
             modelBuilder.Entity("SiteMagicCover.Models.Cliente", b =>
                 {
-                    b.Navigation("CapinhaPersonalizadas");
-
                     b.Navigation("ClienteEnderecos");
 
                     b.Navigation("ClientePedidos");

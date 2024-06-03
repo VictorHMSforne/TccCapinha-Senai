@@ -13,5 +13,8 @@ namespace SiteMagicCover.Models
 
         [StringLength(200)]
         public string CarrinhoCompraId { get; set; }
+
+        public int CapinhaPersoId { get; set; }
+        public CapinhaPersonalizada CapinhaPersonalizada { get; set; }
     }
 }

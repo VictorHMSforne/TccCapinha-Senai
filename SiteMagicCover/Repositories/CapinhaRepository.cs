@@ -12,6 +12,8 @@ namespace SiteMagicCover.Repositories
         {
             _context = contexto;
         }
+
+
         public IEnumerable<Capinha> Capinhas => _context.Capinhas.Include(c => c.Categoria);
 
         public Capinha GetCapinhaById(int capinhaId)

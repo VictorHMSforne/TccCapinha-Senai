@@ -19,7 +19,32 @@ namespace SiteMagicCover.Context
 
 
         public DbSet<Cliente> Clientes { get; set; }
+        public DbSet<CapinhaPersonalizada> CapinhasPersonalizadas { get; set; }
         public DbSet<ClienteEndereco> ClientesEnderecos { get; set; }
-        public DbSet <ClientePedido> ClientePedidos { get; set; }
+        public DbSet<ClientePedido> ClientePedidos { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<Cliente>()
+                .HasMany(c => c.CapinhaPersonalizadas)
+                .WithOne(p => p.Cliente)
+                .HasForeignKey(p => p.ClienteId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<CapinhaPersonalizada>()
+                .HasMany(p => p.ClientePedidos)
+                .WithOne(cp => cp.CapinhaPersonalizada)
+                .HasForeignKey(cp => cp.CapinhaPersoId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<CapinhaPersonalizada>()
+                .HasMany(p => p.CarrinhoCompraItens)
+                .WithOne(ci => ci.CapinhaPersonalizada)
+                .HasForeignKey(ci => ci.CapinhaPersoId)
+                .OnDelete(DeleteBehavior.Cascade);
+        }
+
     }
 }

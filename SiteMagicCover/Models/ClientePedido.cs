@@ -11,6 +11,8 @@ namespace SiteMagicCover.Models
 
         public int ClienteId { get; set; }
         public int CapinhaId { get; set; }
+        
+
 
         [Display(Name = "Preço Individual do Pedido")]
         public double Preco { get; set; }
@@ -36,7 +38,12 @@ namespace SiteMagicCover.Models
         [DisplayFormat(DataFormatString = "{0: dd/MM/yyyy hh:mm}", ApplyFormatInEditMode = true)]
         public DateTime? PedidoEntregueEm { get; set; }
 
+        public int CapinhaPersoId { get; set; }
+
         public virtual Capinha Capinha { get; set; }
         public virtual Cliente Cliente { get; set; }
+        public virtual CapinhaPersonalizada CapinhaPersonalizada { get; set; }
+
+
     }
 }

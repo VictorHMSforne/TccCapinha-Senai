@@ -11,7 +11,7 @@ namespace SiteMagicCover.Controllers
     {
        private readonly IClienteRepository _clienteRepository;
        private readonly CarrinhoCompra _carrinhoCompra;
-        private readonly UserManager<IdentityUser> _userManager;
+       private readonly UserManager<IdentityUser> _userManager;
 
         public ClientePedidoController(IClienteRepository clienteRepository, CarrinhoCompra carrinhoCompra, UserManager<IdentityUser> userManager)
         {
@@ -22,7 +22,7 @@ namespace SiteMagicCover.Controllers
 
         [Authorize]
         [HttpGet]
-        public async Task<IActionResult> Checkout() 
+        public async Task<IActionResult> Checkout() // é AQUI pra terminar a parte final de confirmação de dados
         {
             var currentUser = await _userManager.GetUserAsync(User);
             if (currentUser != null) 

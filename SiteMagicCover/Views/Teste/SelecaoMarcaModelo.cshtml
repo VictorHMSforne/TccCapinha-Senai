@@ -1,0 +1,23 @@
+﻿@model SiteMagicCover.ViewModels.TesteViewModel
+
+@{
+    ViewData["Title"] = "Seleção de Marca e Modelo";
+}
+
+<h1>Seleção de Marca e Modelo</h1>
+
+<form asp-action="CustomizarCapinha" method="post">
+    <div class="form-group">
+        <label for="marca">Marca do Celular:</label>
+        <select class="form-control" id="marca" asp-for="Marca" asp-items="Model.Marcas">
+            <option value="">Selecione a Marca</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="modelo">Modelo do Celular:</label>
+        <select class="form-control" id="modelo" asp-for="Modelo" asp-items="Model.Modelos">
+            <option value="">Selecione o Modelo</option>
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Personalizar Capinha</button>
+</form>

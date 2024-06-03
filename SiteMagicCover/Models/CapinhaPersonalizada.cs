@@ -30,5 +30,11 @@ namespace SiteMagicCover.Models
         [Display(Name = "Caminho Imagem Normal")]
         [StringLength(200, ErrorMessage = "Deve ter no máximo 200 caracteres")]
         public string ImagemFinal { get; set; }
+        public int ClienteId { get; set; }
+
+
+        public virtual Cliente Cliente { get; set; }
+        public ICollection<ClientePedido> ClientePedidos { get; set; }
+        public ICollection<CarrinhoCompraItem> CarrinhoCompraItens { get; set; }
     }
 }

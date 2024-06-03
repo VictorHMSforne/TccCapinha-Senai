@@ -1,0 +1,71 @@
+﻿@model SiteMagicCover.ViewModels.TesteViewModel
+
+@{
+    ViewData["Title"] = "Customização de Capinha";
+}
+
+<h1>Customização de Capinha</h1>
+
+<div>
+    <h2>Visualização da Capinha Personalizada</h2>
+    <div class="capinha-container">
+        <div class="capinha">
+            <img src="~/images/mockups/Iphone15PM.png" alt="Capinha Base" class="capinha-base">
+            <img src="#" alt="Imagem Personalizada" class="imagem-personalizada" id="imagemPersonalizada">
+        </div>
+    </div>
+</div>
+
+<div>
+    <h2>Customizar Capinha</h2>
+    <input type="file" id="inputImagem" accept="image/*">
+    <button id="btnSalvar">Salvar Capinha</button>
+</div>
+
+@section Scripts {
+    <style>
+        .capinha-container {
+            position: relative;
+            width: 300px; /* Ajuste conforme necessário */
+            height: 600px; /* Ajuste conforme necessário */
+        }
+
+        .capinha {
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+            .capinha img {
+                max-width: 100%;
+                height: auto;
+            }
+
+        .imagem-personalizada {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            max-width: 100%;
+            max-height: 100%;
+            opacity: 0.5; /* Ajuste a opacidade conforme necessário */
+        }
+    </style>
+
+    <script>
+        document.getElementById('inputImagem').addEventListener('change', function (event) {
+            const file = event.target.files[0];
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                document.getElementById('imagemPersonalizada').src = e.target.result;
+            }
+            reader.readAsDataURL(file);
+        });
+
+        document.getElementById('btnSalvar').addEventListener('click', function () {
+            const imageData = document.getElementById('imagemPersonalizada').src;
+            console.log('URL da imagem personalizada:', imageData);
+            // Aqui você pode adicionar lógica para salvar a imagem personalizada
+        });
+    </script>
+}

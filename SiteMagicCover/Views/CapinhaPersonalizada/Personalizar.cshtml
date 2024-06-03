@@ -1,0 +1,66 @@
+﻿@model CapinhaPersonalizadaViewModel
+
+<form asp-action="UploadImagem" asp-controller="CapinhaPersonalizada" method="post" enctype="multipart/form-data">
+@*     <input type="hidden" name="marcaId" value="@Model.MarcaId" />
+    <input type="hidden" name="modeloId" value="@Model.ModeloId" /> *@
+    <div class="form-group">
+        <label for="imagem">Selecione uma imagem:</label>
+        <input type="file" name="imagem" class="form-control-file" accept="image/*" required />
+    </div>
+    <button type="submit" class="btn btn-primary">Enviar Imagem</button>
+</form>
+
+<!-- Área para exibir o mockup da capinha -->
+<div>
+    <h3>Mockup da Capinha</h3>
+    <img src="~/images/mockup_capinha.png" alt="Mockup Capinha" />
+</div>
+
+
+<!-- Adicione o script do Fabric.js no seu HTML -->
+@* <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/4.5.0/fabric.min.js">
+    document.addEventListener("DOMContentLoaded", function () {
+        var canvas = new fabric.Canvas('mockup-image');
+
+        document.getElementById('imagem').onchange = function handleImage(e) {
+            var reader = new FileReader();
+            reader.onload = function (event) {
+                var imgObj = new Image();
+                imgObj.src = event.target.result;
+                imgObj.onload = function () {
+                    var image = new fabric.Image(imgObj);
+                    image.set({
+                        left: 100,
+                        top: 100,
+                        angle: 0,
+                        padding: 10,
+                        cornersize: 10
+                    });
+                    canvas.add(image);
+                }
+            }
+            reader.readAsDataURL(e.target.files[0]);
+        };
+
+        document.getElementById('save-mockup').onclick = function () {
+            var dataURL = canvas.toDataURL();
+            // Envie a imagem manipulada para o servidor
+            // Aqui você deve implementar a lógica para salvar a imagem final no servidor
+            // Você pode enviar a imagem como um FormData através de uma requisição AJAX
+            // Exemplo:
+            // $.ajax({
+            //     type: "POST",
+            //     url: '@Url.Action("SalvarMockup", "CapinhaPersonalizada")',
+            //     data: {
+            //         imagem: dataURL,
+            //         marcaId: @Model.MarcaId,
+            //         modeloId: @Model.ModeloId
+            //     },
+            //     success: function () {
+            //         window.location.href = '/CarrinhoCompra/Index';
+            //     }
+            // });
+        };
+    });</script> *@
+
+

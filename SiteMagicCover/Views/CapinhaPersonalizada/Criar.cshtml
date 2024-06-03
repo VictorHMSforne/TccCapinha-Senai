@@ -1,0 +1,59 @@
+﻿@model CapinhaPersonalizadaViewModel
+
+@* <form asp-action="SelecionarModelo" asp-controller="CapinhaPersonalizada" method="post">
+    <div class="form-group">
+        <label for="marca">Marca:</label>
+        <select asp-for="Marca" asp-items="@Model.Marca"></select>
+    </div>
+    <div class="form-group">
+        <label for="modelo">Modelo:</label>
+        <select asp-for="Modelo" asp-items="@Model.Modelo"></select>
+    </div>
+    <button type="submit" class="btn btn-primary">Selecionar</button>
+</form> *@
+
+<form asp-action="Criar" asp-controller="CapinhaPersonalizada" method="post" enctype="multipart/form-data">
+    <div class="form-group">
+        <label for="imagem">Selecione uma imagem:</label>
+        <input type="file" class="form-control-file" id="imagem" name="imagem">
+        @* <input type="hidden" asp-for="@Model.Marca" />
+        <input type="hidden" asp-for="@Model.Modelo" /> *@
+    </div>
+    <button type="submit" class="btn btn-primary">Enviar Imagem</button>
+</form>
+
+<!-- Div para exibir o mockup da capinha e a imagem manipulada -->
+<div id="mockup-container">
+    <img src="~/images/mockups/Iphone15PM.png" id="mockup-image" width="200" height="400" />
+    <canvas id="canvas"></canvas>
+</div>
+
+<!-- Botão para salvar a imagem manipulada -->
+<button id="save-mockup" class="btn btn-success">Salvar Imagem</button>
+<script>
+    document.getElementById('imagem').addEventListener('change', function (e) {
+        var file = e.target.files[0];
+        var reader = new FileReader();
+        reader.onload = function (event) {
+            var imgObj = new Image();
+            imgObj.src = event.target.result;
+            imgObj.onload = function () {
+                var canvas = new fabric.Canvas('canvas');
+                canvas.setDimensions({ width: 200, height: 400 }); // Defina as dimensões do canvas conforme necessário
+                var image = new fabric.Image(imgObj);
+                image.scaleToWidth(200); // Redimensione a imagem para caber na capinha
+                canvas.centerObject(image);
+                canvas.add(image);
+                canvas.renderAll();
+            }
+        }
+        reader.readAsDataURL(file);
+    });
+
+    document.getElementById('save-mockup').onclick = function () {
+        var canvas = document.getElementById('canvas');
+        var dataURL = canvas.toDataURL();
+        // Implemente aqui a lógica para salvar a imagem manipulada
+    };
+</script>
+
