@@ -322,7 +322,7 @@
 </html>*@
 
 
-<!DOCTYPE html>
+@* <!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -382,26 +382,7 @@
             };
         };
 
-        // Adiciona um quadrado transparente no meio da capinha
-        const square = new fabric.Rect({
-            width: 100,
-            height: 100,
-            left: 185, // Ajuste conforme necessário para o centro
-            top: 380, // Ajuste conforme necessário para o centro
-            fill: 'rgba(255, 255, 255, 0.5)', // Transparente
-            selectable: false
-        });
-
-        canvas.add(square);
-
         btn.onclick = () => {
-            // Torna o ponto onde está o quadrado transparente
-            canvas.forEachObject(function (obj) {
-                if (obj.intersectsWithObject(square)) {
-                    obj.opacity = 0.5;
-                }
-            });
-
             const dataURL = canvas.toDataURL("image/png");
             const a = document.createElement("a");
             a.download = "imagem_personalizada";
@@ -411,7 +392,104 @@
     </script>
 </body>
 
-</html>
+</html> *@
+
+@* <!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Customização de Capinha</title>
+    <script src="https://cdn.jsdelivr.net/npm/konva@8.3.11/konva.min.js"></script>
+    <style>
+        .container {
+            position: relative;
+            width: 470px;
+            height: 939px;
+            margin: auto;
+            background-image: url('/images/mockups/Iphone15Fundo.png');
+            background-size: cover;
+        }
+
+        .mask {
+            position: absolute;
+            width: 470px;
+            height: 939px;
+            mask-image: url('/images/mockups/Iphone15Fundo.png');
+            mask-size: cover;
+            -webkit-mask-image: url('/images/mockups/Iphone15Fundo.png');
+            -webkit-mask-size: cover;
+        }
+
+        input {
+            margin: 8px 0;
+        }
+
+        button {
+            margin: 8px 0;
+        }
+    </style>
+</head>
+
+<body>
+    <h2>Customização de Capinha</h2>
+    <div class="container">
+        <div id="konva-container" class="mask"></div>
+    </div>
+    <input accept="image/*" type="file" id="fileInput" />
+    <button id="btn">Gerar imagem</button>
+    <script>
+        const stage = new Konva.Stage({
+            container: 'konva-container',
+            width: 470,
+            height: 939
+        });
+
+        const layer = new Konva.Layer();
+        stage.add(layer);
+
+        document.getElementById('fileInput').addEventListener('change', function (event) {
+            const file = event.target.files[0];
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                const img = new Image();
+                img.onload = function () {
+                    const konvaImage = new Konva.Image({
+                        image: img,
+                        x: 0,
+                        y: 0,
+                        width: 470,
+                        height: 939
+                    });
+                    layer.add(konvaImage);
+                    layer.batchDraw();
+                }
+                img.src = e.target.result;
+            }
+            reader.readAsDataURL(file);
+        });
+
+        document.getElementById('btn').addEventListener('click', function () {
+            stage.toDataURL({
+                callback(dataUrl) {
+                    const a = document.createElement('a');
+                    a.href = dataUrl;
+                    a.download = 'imagem_personalizada.png';
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                }
+            });
+        });
+    </script>
+</body>
+
+</html> *@
+
+
+
 
 
 
