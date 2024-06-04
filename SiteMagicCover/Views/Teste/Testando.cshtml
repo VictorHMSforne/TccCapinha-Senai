@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+﻿@*<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -10,6 +10,11 @@
     <style>
         canvas {
             border: 4px solid #323232;
+            width: 40%; /* Ajuste a largura do canvas */
+            height: 40%; /* Ajuste a altura do canvas */
+            margin: 5% auto; /* Centralize o canvas e adicione margem ao redor */
+            display: block;
+            border-radius: 70px;
         }
 
         input {
@@ -25,7 +30,7 @@
     <canvas id="canvas"></canvas>
     <script>
         const canvas = new fabric.Canvas("canvas");
-        canvas.setWidth(innerWidth - 100);
+        canvas.setWidth(innerWidth - 200);
         canvas.setHeight(innerHeight - 200);
 
         // Adiciona imagem de fundo
@@ -106,3 +111,309 @@
 </body>
 
 </html>
+*@
+
+@*<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Customização de Capinha</title>
+    <script src="https://unpkg.com/fabric@5.3.0/dist/fabric.min.js"></script>
+    <style>
+        canvas {
+            border: 4px solid #323232;
+            border-radius: 80px;
+            margin: auto;
+
+        }
+
+        input {
+            margin: 8px 0;
+        }
+    </style>
+</head>
+
+<body>
+    <h2>Customização de Capinha</h2>
+    <input accept="image/*" type="file" name="image" id="input" />
+    <button id="btn">Gerar imagem</button>
+    <canvas id="canvas"></canvas>
+    <script>
+        const canvas = new fabric.Canvas("canvas");
+        //https://localhost:7015/teste/testando
+        // Adiciona imagem de fundo e ajusta o tamanho do canvas
+        fabric.Image.fromURL('/images/mockups/Iphone15Fundo.png', function (img) {
+            canvas.setWidth(563);
+            canvas.setHeight(1111);
+            img.set({ left: -90 });
+            img.set({ top: -90 });
+
+            
+            
+
+            canvas.setBackgroundImage(img, canvas.renderAll.bind(canvas), {
+                scaleX: 1,
+                scaleY: 1
+            });
+
+            // Adicionar bordas para a câmera
+            const cameraBorders = [
+                new fabric.Rect({
+                    left: 135,
+                    top: 50,
+                    width: 50,
+                    height: 50,
+                    fill: 'rgba(0,0,0,0)',
+                    stroke: 'red',
+                    strokeWidth: 5,
+                    selectable: false,
+                    evented: false
+                }),
+                new fabric.Rect({
+                    left: 210,
+                    top: 50,
+                    width: 50,
+                    height: 50,
+                    fill: 'rgba(0,0,0,0)',
+                    stroke: 'red',
+                    strokeWidth: 5,
+                    selectable: false,
+                    evented: false
+                }),
+                new fabric.Rect({
+                    left: 285,
+                    top: 50,
+                    width: 50,
+                    height: 50,
+                    fill: 'rgba(0,0,0,0)',
+                    stroke: 'red',
+                    strokeWidth: 5,
+                    selectable: false,
+                    evented: false
+                })
+            ];
+            canvas.add(...cameraBorders);
+        });
+
+        input.onchange = (evnt) => {
+            const file = evnt.target.files[0];
+            const url = URL.createObjectURL(file);
+            const imgNode = new Image();
+            imgNode.src = url;
+            imgNode.onload = () => {
+                const img = new fabric.Image(imgNode, {
+                    left: 200,
+                    top: 100,
+                    angle: 0,
+                    opacity: 1,
+                });
+                canvas.add(img);
+                canvas.moveTo(img, 0); // Move a imagem carregada para o fundo
+            };
+        };
+
+        btn.onclick = () => {
+            const dataURL = canvas.toDataURL("image/png");
+            const a = document.createElement("a");
+            a.download = "imagem_personalizada";
+            a.href = dataURL;
+            a.click();
+        };
+    </script>
+</body>
+
+</html>*@
+
+@*<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Customização de Capinha</title>
+    <script src="https://unpkg.com/fabric@5.3.0/dist/fabric.min.js"></script>
+    <style>
+        #canvas-container {
+            position: relative;
+            width: 470px; /* Ajuste conforme necessário */
+            height: 939px; /* Ajuste conforme necessário */
+            margin: auto;
+        }
+
+        #canvas {
+            border: 4px solid #323232;
+            border-radius: 80px;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        #camera-canvas {
+            border: 2px solid red; /* Ajuste conforme necessário */
+            border-radius: 88px;
+            position: relative;
+            top: 500px; /* Ajuste conforme necessário */
+            left: 900px; /* Ajuste conforme necessário */
+            z-index: 1; /* Garante que esteja sobre o outro canvas */
+        }
+
+        input {
+            margin: 8px 0;
+        }
+    </style>
+</head>
+
+<body>
+    <h2>Customização de Capinha</h2>
+    <input accept="image/*" type="file" name="image" id="input" />
+    <button id="btn">Gerar imagem</button>
+    <div id="canvas-container">
+        <canvas id="canvas"></canvas>
+        <canvas id="camera-canvas"></canvas>
+    </div>
+    <script>
+        const canvas = new fabric.Canvas("canvas");
+        const cameraCanvas = new fabric.Canvas("camera-canvas");
+
+        // Adiciona imagem de fundo e ajusta o tamanho do canvas principal
+        fabric.Image.fromURL('/images/mockups/Iphone15Fundo.png', function (img) {
+            canvas.setWidth(470);
+            canvas.setHeight(939);
+            img.set({ left: -90 });
+            img.set({ top: -170 });
+
+            canvas.setBackgroundImage(img, canvas.renderAll.bind(canvas), {
+                scaleX: 1,
+                scaleY: 1
+            });
+        });
+
+        input.onchange = (evnt) => {
+            const file = evnt.target.files[0];
+            const url = URL.createObjectURL(file);
+            const imgNode = new Image();
+            imgNode.src = url;
+            imgNode.onload = () => {
+                const img = new fabric.Image(imgNode, {
+                    left: 200,
+                    top: 100,
+                    angle: 0,
+                    opacity: 1,
+                });
+                canvas.add(img);
+                canvas.moveTo(img, 0); // Move a imagem carregada para o fundo
+            };
+        };
+
+        btn.onclick = () => {
+            const dataURL = canvas.toDataURL("image/png");
+            const a = document.createElement("a");
+            a.download = "imagem_personalizada";
+            a.href = dataURL;
+            a.click();
+        };
+    </script>
+</body>
+
+</html>*@
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Customização de Capinha</title>
+    <script src="https://unpkg.com/fabric@5.3.0/dist/fabric.min.js"></script>
+    <style>
+        canvas {
+            border: 4px solid #323232;
+            border-radius: 80px;
+            margin: auto;
+        }
+
+        input {
+            margin: 8px 0;
+        }
+    </style>
+</head>
+
+<body>
+    <h2>Customização de Capinha</h2>
+    <input accept="image/*" type="file" name="image" id="input" />
+    <button id="btn">Gerar imagem</button>
+    <canvas id="canvas"></canvas>
+    <script>
+        const canvas = new fabric.Canvas("canvas");
+
+        // Adiciona imagem de fundo e ajusta o tamanho do canvas
+        fabric.Image.fromURL('/images/mockups/Iphone15Fundo.png', function (img) {
+            canvas.setWidth(470);
+            canvas.setHeight(939);
+            img.set({ left: -90 });
+            img.set({ top: -170 });
+
+            canvas.setBackgroundImage(img, canvas.renderAll.bind(canvas), {
+                scaleX: 1,
+                scaleY: 1
+            });
+        });
+
+        input.onchange = (evnt) => {
+            const file = evnt.target.files[0];
+            const url = URL.createObjectURL(file);
+            const imgNode = new Image();
+            imgNode.src = url;
+            imgNode.onload = () => {
+                const img = new fabric.Image(imgNode, {
+                    left: 200,
+                    top: 100,
+                    angle: 0,
+                    opacity: 1,
+                });
+                canvas.add(img);
+                canvas.moveTo(img, 0); // Move a imagem carregada para o fundo
+            };
+        };
+
+        // Adiciona um quadrado transparente no meio da capinha
+        const square = new fabric.Rect({
+            width: 100,
+            height: 100,
+            left: 185, // Ajuste conforme necessário para o centro
+            top: 380, // Ajuste conforme necessário para o centro
+            fill: 'rgba(255, 255, 255, 0.5)', // Transparente
+            selectable: false
+        });
+
+        canvas.add(square);
+
+        btn.onclick = () => {
+            // Torna o ponto onde está o quadrado transparente
+            canvas.forEachObject(function (obj) {
+                if (obj.intersectsWithObject(square)) {
+                    obj.opacity = 0.5;
+                }
+            });
+
+            const dataURL = canvas.toDataURL("image/png");
+            const a = document.createElement("a");
+            a.download = "imagem_personalizada";
+            a.href = dataURL;
+            a.click();
+        };
+    </script>
+</body>
+
+</html>
+
+
+
+
+
