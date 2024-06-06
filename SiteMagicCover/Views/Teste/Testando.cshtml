@@ -655,23 +655,20 @@
         };
         backgroundImg.src = '/images/mockups/Iphone15Fundo.png';
 
-        // Load and set overlay image
+        // Load and set overlay image with rounded corners
         const overlayImg = new Image();
         overlayImg.onload = function () {
-            // Define as coordenadas e dimensões do recorte
-            let cropX = 105; // Posição X do corte
-            let cropY = 180;  // -21
-            let cropWidth = 270; // Largura do recorte
-            let cropHeight = 290; // Altura do recorte
-            
+            let cropX = 105;
+            let cropY = 180;
+            let cropWidth = 270;
+            let cropHeight = 290;
 
             const overlayKonvaImage = new Konva.Image({
                 image: overlayImg,
                 x: 11,
                 y: 10,
-                width: 115, // Largura do overlay
-                height: 123, // Altura do overlay
-                
+                width: 115,
+                height: 123,
                 crop: {
                     x: cropX,
                     y: cropY,
@@ -679,24 +676,41 @@
                     height: cropHeight
                 }
             });
-            /////////////////////////////////////////////////
-            const borderRect = new Konva.Rect({
+
+            // Create a group to clip the image with rounded corners
+            const group = new Konva.Group({
                 x: overlayKonvaImage.x(),
                 y: overlayKonvaImage.y(),
+                clipFunc: function (ctx) {
+                    const radius = 23;
+                    const width = overlayKonvaImage.width();
+                    const height = overlayKonvaImage.height();
+                    ctx.beginPath();
+                    ctx.moveTo(radius, 0);
+                    ctx.arcTo(width, 0, width, height, radius);
+                    ctx.arcTo(width, height, 0, height, radius);
+                    ctx.arcTo(0, height, 0, 0, radius);
+                    ctx.arcTo(0, 0, width, 0, radius);
+                    ctx.closePath();
+                    ctx.clip();
+                }
+            });
+
+            group.add(overlayKonvaImage);
+
+            // Create border rectangle
+            const borderRect = new Konva.Rect({
+                x: 0,
+                y: 0,
                 width: overlayKonvaImage.width(),
                 height: overlayKonvaImage.height(),
-                stroke: 'black', // Color of the border
-                strokeWidth: 2, // Width of the border
+                stroke: 'black',
+                strokeWidth: 2,
                 cornerRadius: 23
             });
 
-            
-            overlayLayer.add(overlayKonvaImage);
-            
-            /////
-            overlayLayer.add(borderRect);
-            /////
-            
+            group.add(borderRect);
+            overlayLayer.add(group);
             overlayLayer.batchDraw();
         };
         overlayImg.src = '/images/mockups/Iphone15Fundo.png'; // Your overlay image for the camera area
