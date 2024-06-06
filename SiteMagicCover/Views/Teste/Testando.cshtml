@@ -604,9 +604,11 @@
 
         .konva-container {
             border: 1px solid black;
-            width: 300px; /* Reduza a largura do contêiner */
-            height: 600px; /* Reduza a altura do contêiner */
-            border-radius: 60px;
+           /*  width: 300px; 
+            height: 600px;  */
+            width: 215px ;
+            height: 440px;
+            border-radius: 40px;
             overflow: hidden; /* Evita que a imagem de fundo ultrapasse os limites do contêiner */
         }
     </style>
@@ -643,8 +645,8 @@
         backgroundImg.onload = function () {
             const bgKonvaImage = new Konva.Image({
                 image: backgroundImg,
-                x: 0,
-                y: 0,
+                x: -43,
+                y: -80,
                 width: stage.width(),
                 height: stage.height()
             });
@@ -657,17 +659,19 @@
         const overlayImg = new Image();
         overlayImg.onload = function () {
             // Define as coordenadas e dimensões do recorte
-            let cropX = 85; // Posição X do corte
-            let cropY = 30;  // Posição Y do corte
-            let cropWidth = 300; // Largura do recorte
-            let cropHeight = 500; // Altura do recorte
+            let cropX = 105; // Posição X do corte
+            let cropY = 180;  // -21
+            let cropWidth = 270; // Largura do recorte
+            let cropHeight = 290; // Altura do recorte
+            
 
             const overlayKonvaImage = new Konva.Image({
                 image: overlayImg,
-                x: 65,
-                y: 20,
-                width: 410, // Largura do overlay
-                height: 410, // Altura do overlay
+                x: 11,
+                y: 10,
+                width: 115, // Largura do overlay
+                height: 123, // Altura do overlay
+                
                 crop: {
                     x: cropX,
                     y: cropY,
@@ -675,7 +679,24 @@
                     height: cropHeight
                 }
             });
+            /////////////////////////////////////////////////
+            const borderRect = new Konva.Rect({
+                x: overlayKonvaImage.x(),
+                y: overlayKonvaImage.y(),
+                width: overlayKonvaImage.width(),
+                height: overlayKonvaImage.height(),
+                stroke: 'black', // Color of the border
+                strokeWidth: 2, // Width of the border
+                cornerRadius: 23
+            });
+
+            
             overlayLayer.add(overlayKonvaImage);
+            
+            /////
+            overlayLayer.add(borderRect);
+            /////
+            
             overlayLayer.batchDraw();
         };
         overlayImg.src = '/images/mockups/Iphone15Fundo.png'; // Your overlay image for the camera area
