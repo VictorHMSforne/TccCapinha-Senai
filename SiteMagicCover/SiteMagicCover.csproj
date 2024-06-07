@@ -7,6 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="wwwroot\images\imagesCapUser\**" />
+    <Content Remove="wwwroot\images\imagesCapUser\**" />
+    <EmbeddedResource Remove="wwwroot\images\imagesCapUser\**" />
+    <None Remove="wwwroot\images\imagesCapUser\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Remove="Views\Teste\Selecao.cshtml" />
   </ItemGroup>
 
@@ -27,7 +34,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\images\imagesCapUser\" />
+    <Folder Include="wwwroot\images\imagensUser\" />
   </ItemGroup>
 
 </Project>

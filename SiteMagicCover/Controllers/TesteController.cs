@@ -58,6 +58,8 @@ namespace SiteMagicCover.Controllers
                 // Adicione mais modelos conforme necessário
             };
         }
+        
+
 
         public IActionResult Testando()
         {

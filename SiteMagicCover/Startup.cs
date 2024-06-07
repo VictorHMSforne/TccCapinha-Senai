@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using SiteMagicCover.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http.Features;
 
 
 namespace SiteMagicCover;
@@ -62,8 +63,16 @@ public class Startup
         services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>(); //esse Singleton, signfica que o tempo de vida do HttpContext vai durar enquanto a aplicação estiver rodando 
         services.AddScoped(sp => CarrinhoCompra.GetCarrinho(sp));
 
-        
 
+        services.AddControllers();
+        services.Configure<IISServerOptions>(options =>
+        {
+            options.MaxRequestBodySize = long.MaxValue;
+        });
+        services.Configure<FormOptions>(options =>
+        {
+            options.MultipartBodyLengthLimit = long.MaxValue;
+        });
         services.AddControllersWithViews();
 
         services.AddMemoryCache();
