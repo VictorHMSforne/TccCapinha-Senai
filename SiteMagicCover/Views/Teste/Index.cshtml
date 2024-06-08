@@ -1,0 +1,203 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Konva.js Layers Example</title>
+    <style>
+        .container {
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .konva-container {
+            border: 1px solid black;
+            width: 215px;
+            height: 440px;
+            border-radius: 40px;
+            overflow: hidden; /* Evita que a imagem de fundo ultrapasse os limites do contêiner */
+            margin-bottom: 20px;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/konva@8.3.11/konva.min.js"></script>
+</head>
+<body>
+    <h2>Konva.js Layers Example</h2>
+    <div class="container">
+        <div id="konvaContainer" class="konva-container"></div>
+        <input accept="image/*" type="file" id="fileInput" />
+        <button id="downloadButton">Baixar Imagem</button>
+    </div>
+    <script>
+        // Konva.js setup
+        const stage = new Konva.Stage({
+            container: 'konvaContainer',
+            width: 300,
+            height: 600
+        });
+
+        // Background Layer
+        const backgroundLayer = new Konva.Layer();
+        stage.add(backgroundLayer);
+
+        // Image Layer (user's image)
+        const imageLayer = new Konva.Layer();
+        stage.add(imageLayer);
+
+        // Overlay Layer (fixed image on top)
+        const overlayLayer = new Konva.Layer();
+        stage.add(overlayLayer);
+
+        // Load and set background image
+        const backgroundImg = new Image();
+        backgroundImg.onload = function () {
+            const bgKonvaImage = new Konva.Image({
+                image: backgroundImg,
+                x: -43,
+                y: -80,
+                width: stage.width(),
+                height: stage.height()
+            });
+            backgroundLayer.add(bgKonvaImage);
+            backgroundLayer.batchDraw();
+        };
+        backgroundImg.src = '/images/mockups/Iphone15Fundo.png';
+
+        // Load and set overlay image with rounded corners
+        const overlayImg = new Image();
+        overlayImg.onload = function () {
+            let cropX = 105;
+            let cropY = 180;
+            let cropWidth = 270;
+            let cropHeight = 290;
+
+            const overlayKonvaImage = new Konva.Image({
+                image: overlayImg,
+                x: 19,
+                y: 9,
+                width: 128,
+                height: 123,
+                crop: {
+                    x: cropX,
+                    y: cropY,
+                    width: cropWidth,
+                    height: cropHeight
+                }
+            });
+
+            // Create a group to clip the image with rounded corners
+            const group = new Konva.Group({
+                x: -10,
+                y: 5,
+                clipFunc: function (ctx) {
+                    const radius = 15;
+                    const width = 300;
+                    const height = 128;
+                    ctx.beginPath();
+                    ctx.moveTo(radius, 0);
+                    ctx.arcTo(width, 0, width, height, radius);
+                    ctx.arcTo(width, height, 0, height, radius);
+                    ctx.arcTo(0, height, 0, 0, radius);
+                    ctx.arcTo(0, 0, width, 0, radius);
+                    ctx.closePath();
+                    ctx.clip();
+                }
+            });
+
+            group.add(overlayKonvaImage);
+
+            // Create border rectangle
+            const borderRect = new Konva.Rect({
+                x: 20,
+                y: 10,
+                width: overlayKonvaImage.width(),
+                height: 117,
+                stroke: 'black',
+                strokeWidth: 3,
+                cornerRadius: 12
+            });
+
+            group.add(borderRect);
+            overlayLayer.add(group);
+            overlayLayer.batchDraw();
+        };
+        overlayImg.src = '/images/mockups/Iphone15Fundo.png';
+
+        // Handle user image upload
+        document.getElementById('fileInput').addEventListener('change', function (event) {
+            const file = event.target.files[0];
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                const img = new Image();
+                img.onload = function () {
+                    const userImage = new Konva.Image({
+                        image: img,
+                        x: 100,
+                        y: 200,
+                        draggable: true,
+                        width: img.width,
+                        height: img.height
+                    });
+
+                    // Add the image to the layer
+                    imageLayer.add(userImage);
+
+                    // Create a transformer for the user image
+                    const tr = new Konva.Transformer({
+                        nodes: [userImage],
+                        boundBoxFunc: function (oldBox, newBox) {
+                            // Limit resizing to the canvas dimensions
+                            newBox.width = Math.max(30, newBox.width);
+                            newBox.height = Math.max(30, newBox.height);
+                            newBox.x = Math.max(0, newBox.x);
+                            newBox.y = Math.max(0, newBox.y);
+                            newBox.x = Math.min(stage.width() - newBox.width, newBox.x);
+                            newBox.y = Math.min(stage.height() - newBox.height, newBox.y);
+                            return newBox;
+                        }
+                    });
+
+                    // Add the transformer to the layer
+                    imageLayer.add(tr);
+                    imageLayer.draw();
+
+                    // Make transformer active on click
+                    userImage.on('click', () => {
+                        tr.nodes([userImage]);
+                        imageLayer.draw();
+                    });
+
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        });
+
+        // Deselect transformer on stage click
+        stage.on('click', (e) => {
+            const clickedOnStage = e.target === stage;
+            if (clickedOnStage) {
+                const tr = imageLayer.findOne('Transformer');
+                if (tr) {
+                    tr.nodes([]);
+                    imageLayer.draw();
+                }
+            }
+        });
+
+        // Download image button
+        document.getElementById('downloadButton').addEventListener('click', function () {
+            const dataURL = stage.toDataURL({ pixelRatio: 3 });
+            const link = document.createElement('a');
+            link.href = dataURL;
+            link.download = 'konva_image.png';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        });
+    </script>
+
+</body>
+</html>
