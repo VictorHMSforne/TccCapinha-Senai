@@ -49,7 +49,7 @@ public class Startup
         services.AddTransient<ICapinhaRepository, CapinhaRepository>(); // revisar esse registro
         services.AddTransient<ICategoriaRepository, CategoriaRepository>();
         services.AddTransient<IClienteRepository, ClienteRepository>();
-        services.AddTransient<ICapinhaPersonalizadaRepository, CapinhaPersonalizadaRepository>();
+
 
         services.AddScoped<UserManager<IdentityUser>>();
         services.AddScoped<SignInManager<IdentityUser>>(); //QUALQUER COISA VIR AQUI E TIRAR

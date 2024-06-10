@@ -57,6 +57,32 @@ namespace SiteMagicCover.Models
             }
             _context.SaveChanges();
         }
+        public void AdicionarAoCarrinhoPerso(Capinha capinha, bool isPersonalizada)
+        {
+            
+            capinha.IsPersonalizada = isPersonalizada;
+
+            var carrinhoCompraItem = _context.CarrinhoCompraItens
+                .SingleOrDefault(s => s.Capinha.CapinhaId == capinha.CapinhaId && s.CarrinhoCompraId == CarrinhoCompraId);
+
+            if (carrinhoCompraItem == null)
+            {
+                carrinhoCompraItem = new CarrinhoCompraItem
+                {
+                    CarrinhoCompraId = CarrinhoCompraId,
+                    Capinha = capinha,
+                    Quantidade = 1
+                };
+                _context.CarrinhoCompraItens.Add(carrinhoCompraItem);
+            }
+            else
+            {
+                carrinhoCompraItem.Quantidade++;
+            }
+
+            _context.SaveChanges();
+        }
+
 
         public int RemoverDoCarrinho(Capinha capinha) //pode deixar esse método como void em vez de int, ai nao precisaria da var quantidadelocal e nem do return
         {

@@ -45,6 +45,7 @@ namespace SiteMagicCover.ViewModels
         [Display(Name = "Quantidade de Itens Individuais do Pedido")]
         public int Quantidade { get; set; }
 
+
         [ScaffoldColumn(false)] // Para não Aparecer na View
         [Display(Name = "Total do Pedido")]
         public double PedidoTotal { get; set; }

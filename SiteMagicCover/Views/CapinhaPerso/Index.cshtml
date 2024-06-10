@@ -1,0 +1,46 @@
+﻿@{
+    ViewData["Title"] = "Personalizar Capinha";
+}
+
+<h2>Personalizar Capinha</h2>
+
+<form method="post" asp-controller="CapinhaPerso" asp-action="Personalizar">
+    <div>
+        <label for="marca">Marca</label>
+        <select id="marca" name="marca" class="form-select">
+            <option selected>Selecione a marca</option>
+            @foreach (var marca in ViewBag.Marcas)
+            {
+                <option value="@marca">@marca</option>
+            }
+        </select>
+    </div>
+    <div>
+        <label for="modelo">Modelo</label>
+        <select id="modelo" name="modelo" class="form-select">
+            <option selected>Selecione a marca primeiro</option>
+        </select>
+    </div>
+    <br />
+    <button type="submit" class="btn btn-outline-primary">Personalizar</button>
+</form>
+
+@section Scripts {
+    <script>
+        document.getElementById('marca').addEventListener('change', function () {
+            var marca = this.value;
+            fetch(`/CapinhaPerso/GetModelos?marca=${marca}`)
+                .then(response => response.json())
+                .then(data => {
+                    var modeloSelect = document.getElementById('modelo');
+                    modeloSelect.innerHTML = '';
+                    data.forEach(function (modelo) {
+                        var option = document.createElement('option');
+                        option.value = modelo;
+                        option.text = modelo;
+                        modeloSelect.appendChild(option);
+                    });
+                });
+        });
+    </script>
+}

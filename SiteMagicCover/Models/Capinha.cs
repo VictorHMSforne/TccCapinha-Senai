@@ -36,10 +36,14 @@ namespace SiteMagicCover.Models
         [StringLength(200, ErrorMessage = "Deve ter no máximo 200 caracteres")]
         public string ImagemThumbUrl  { get; set; }
 
-        
-
         [Display(Name = "Disponível ?")]
         public bool Disponibilidade { get; set; }
+
+        [Display(Name = "Personalizada ?")]
+        public bool IsPersonalizada { get; set; }
+
+
+       
 
         public int CategoriaId { get; set; } //Uma FK
         public virtual Categoria Categoria { get; set; }//propriedade de Navegação. Aqui ele define o relacionamento com a tabela Capinha

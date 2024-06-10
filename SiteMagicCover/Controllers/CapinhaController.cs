@@ -18,17 +18,31 @@ namespace SiteMagicCover.Controllers
             IEnumerable<Capinha> capinhas;
             string categoriaAtual = string.Empty;
 
+            //if (string.IsNullOrEmpty(categoria))
+            //{
+            //    capinhas = _capinhaRepository.Capinhas.OrderBy(c => c.CapinhaId);
+            //    categoriaAtual = "Todas as Capinhas";
+            //    ViewData["Titulo"] = categoriaAtual;
+            //}
+            //else
+            //{
+
+            //    capinhas = _capinhaRepository.Capinhas
+            //        .Where(c => c.Categoria.CategoriaNome.Equals(categoria))
+            //        .OrderBy(c => c.Marca);
+            //    categoriaAtual = categoria;
+            //    ViewData["Titulo"] = categoriaAtual;
+            //}
             if (string.IsNullOrEmpty(categoria))
             {
-                capinhas = _capinhaRepository.Capinhas.OrderBy(c => c.CapinhaId);
+                capinhas = _capinhaRepository.Capinhas.Where(c => !c.IsPersonalizada).OrderBy(c => c.CapinhaId);
                 categoriaAtual = "Todas as Capinhas";
                 ViewData["Titulo"] = categoriaAtual;
             }
             else
             {
-                
                 capinhas = _capinhaRepository.Capinhas
-                    .Where(c => c.Categoria.CategoriaNome.Equals(categoria))
+                    .Where(c => c.Categoria.CategoriaNome.Equals(categoria) && !c.IsPersonalizada)
                     .OrderBy(c => c.Marca);
                 categoriaAtual = categoria;
                 ViewData["Titulo"] = categoriaAtual;
