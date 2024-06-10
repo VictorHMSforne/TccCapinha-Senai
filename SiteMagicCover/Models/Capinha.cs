@@ -42,7 +42,7 @@ namespace SiteMagicCover.Models
         [Display(Name = "Personalizada ?")]
         public bool IsPersonalizada { get; set; }
 
-
+        public string UserId { get; set; } //vir se der erro
        
 
         public int CategoriaId { get; set; } //Uma FK

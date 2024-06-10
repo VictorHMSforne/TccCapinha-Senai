@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using SiteMagicCover.Context;
 using SiteMagicCover.Models;
 using SiteMagicCover.ViewModels;
+using System.Security.Claims;
 
 namespace SiteMagicCover.Controllers
 {
@@ -103,6 +104,7 @@ namespace SiteMagicCover.Controllers
                     // Write the image bytes to the file
                     await System.IO.File.WriteAllBytesAsync(filePath, imageBytes);
                 }
+                var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
 
                 var capinha = new Capinha
                 {
@@ -114,7 +116,8 @@ namespace SiteMagicCover.Controllers
                     ImagemThumbUrl = Path.Combine("images", "imagensUser", uniqueFileName), // Use the same image for thumbnail if not provided separately
                     Disponibilidade = viewModel.Disponibilidade,
                     IsPersonalizada = viewModel.IsPersonalizada,
-                    CategoriaId = viewModel.CategoriaId
+                    CategoriaId = viewModel.CategoriaId,
+                    UserId = userId // Atribuir o UserId aqui
                 };
 
                 _context.Add(capinha);
