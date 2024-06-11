@@ -48,47 +48,55 @@ namespace SiteMagicCover.Controllers
             int totalItensPedido = 0;
             double precoTotal = 0;
 
-            //Aqui obtem os itens do carrinho de compra do Cliente
+            // Aqui obtem os itens do carrinho de compra do Cliente
             List<CarrinhoCompraItem> itens = _carrinhoCompra.GetCarrinhoCompraItens();
             _carrinhoCompra.CarrinhoCompraItems = itens;
 
-            //Aqui é feito a verificação de itens do pedido
+            // Aqui é feito a verificação de itens do pedido
             if (_carrinhoCompra.CarrinhoCompraItems.Count == 0)
             {
-                ModelState.AddModelError("","Seu carrinho está vazio");
+                ModelState.AddModelError("", "Seu carrinho está vazio");
             }
 
-            //Calcula o total de Itens e do total do pedido
+            // Calcula o total de Itens e do total do pedido
             foreach (var item in itens)
             {
                 totalItensPedido += item.Quantidade;
                 precoTotal += (item.Capinha.Preco * item.Quantidade);
             }
 
-            //Atriuir os valores obtidos ao pedido
+            // Atribuir os valores obtidos ao pedido
             clienteEPedidoViewModel.TotalItensPedido = totalItensPedido;
             clienteEPedidoViewModel.PedidoTotal = precoTotal;
-            
-            
 
-            //Aqui é feito a validação dos dados do pedido
+            // Aqui é feito a validação dos dados do pedido
             if (ModelState.IsValid) // Se não possuir nenhum erro, ele retorna true
             {
-                
-                
-                //Criação do pedido e os detalhes
-                _clienteRepository.CriarPedido(clienteEPedidoViewModel);              //VERIFICAR DEPOIS AQUI
-                clienteEPedidoViewModel.ClientePedidos = _clienteRepository.GetPedidosDoCliente(clienteEPedidoViewModel.ClienteId);
+                // Criação do pedido e os detalhes
+                var pedidosCriados = _clienteRepository.CriarPedido(clienteEPedidoViewModel);
 
-                //Definir Mensagens ao Cliente
+                // Definir Mensagens ao Cliente
                 ViewBag.CheckoutCompletoMensagem = "Obrigado pelo seu Pedido!";
                 ViewBag.TotalPedido = _carrinhoCompra.GetCarrinhoCompraTotal();
 
-                //limpar o Carrinho
+                // Limpar o Carrinho
                 _carrinhoCompra.LimparCarrinho();
 
-                //exibe a view com dados do cliente e do pedido
-                return View("~/Views/ClientePedido/CheckoutCompleto.cshtml", clienteEPedidoViewModel);
+                // Exibe a view com dados do cliente e do pedido
+                var clienteEPedidoViewModelCompleto = new ClienteEPedidoViewModel
+                {
+                    ClienteId = clienteEPedidoViewModel.ClienteId,
+                    ClientePedidoId = pedidosCriados.First().ClientePedidoId,
+                    ClientePedidos = pedidosCriados,
+                    Nome = clienteEPedidoViewModel.Nome,
+                    Sobrenome = clienteEPedidoViewModel.Sobrenome,
+                    CPF = clienteEPedidoViewModel.CPF,
+                    Telefone = clienteEPedidoViewModel.Telefone,
+                    Email = clienteEPedidoViewModel.Email,
+                    PedidoEnviado = pedidosCriados.First().PedidoEnviado
+                };
+
+                return View("~/Views/ClientePedido/CheckoutCompleto.cshtml", clienteEPedidoViewModelCompleto);
             }
             return View(clienteEPedidoViewModel);
         }

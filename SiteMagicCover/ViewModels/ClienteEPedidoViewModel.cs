@@ -11,6 +11,7 @@ namespace SiteMagicCover.ViewModels
         }
 
         public int/*?*/ ClienteId { get; set; } // Opcional para novos clientes
+        public int ClientePedidoId { get; set; }
 
         [Required(ErrorMessage = "Informe o Nome")]
         [StringLength(100)]

@@ -9,10 +9,11 @@
         <div class="card-body">
             <p>Cliente: <strong>@Model.Nome</strong></p>
             <p>Data do Pedido: <strong>@Model.PedidoEnviado</strong></p>
-            <p>Número do Pedido: <strong>@Model.ClienteId</strong></p>
+            <p>Número do Pedido: <strong>@Model.ClientePedidoId</strong></p>
 
             <table class="table">
-                <tr> <!--Cabeçalho-->
+                <tr>
+                    <!--Cabeçalho-->
                     <th></th>
                     <th>Quantidade</th>
                     <th>Capinha</th>
@@ -21,16 +22,20 @@
                 @foreach (var item in Model.ClientePedidos)
                 {
                     <tr>
-                        <td><img src="~/@item.Capinha.ImagemUrl" width="40" height="40" /></td> <!--Dando esse erro quando fica uma Capinha : System.NullReferenceException: 'Object reference not set to an instance of an object.'-->
+                        <td>
+                            @if (item.Capinha != null && !string.IsNullOrEmpty(item.Capinha.ImagemUrl))
+                            {
+                                <img src="~/@item.Capinha.ImagemUrl" width="40" height="40" />
+                            }
+                        </td>
                         <td>@item.Quantidade</td>
-                        <td>@item.Capinha.NomeCelular</td>
-                        <td>@item.Capinha.Preco.ToString("c")</td>
+                        <td>@item.Capinha?.NomeCelular </td>
+                        <td>@item.Capinha?.Preco.ToString("c") </td>
                     </tr>
                 }
             </table>
 
             <h4>Valor total do Pedido: <strong>@(((double)ViewBag.TotalPedido).ToString("c"))</strong></h4>
-
         </div>
     </div>
 </div>

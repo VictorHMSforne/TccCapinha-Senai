@@ -39,7 +39,7 @@ namespace SiteMagicCover.Repositories
         //    }
         //    _appDbContext.SaveChanges();
         //}
-        public void CriarPedido(ClienteEPedidoViewModel clienteEPedidoViewModel)
+        public List<ClientePedido> CriarPedido(ClienteEPedidoViewModel clienteEPedidoViewModel)
         {
             // Verifica se o cliente já existe pelo CPF
             var clienteExistente = _appDbContext.Clientes.SingleOrDefault(c => c.CPF == clienteEPedidoViewModel.CPF);
@@ -66,29 +66,28 @@ namespace SiteMagicCover.Repositories
             // Obtém os itens do carrinho de compra
             var carrinhoCompraItens = _carrinhoCompra.CarrinhoCompraItems;
 
-            //int totalItensPedido = 0;
+            var pedidosCriados = new List<ClientePedido>();
 
             foreach (var carrinhoItem in carrinhoCompraItens)
             {
-                //totalItensPedido += carrinhoItem.Quantidade;
                 var clientePedido = new ClientePedido
                 {
                     PedidoEnviado = DateTime.Now,
                     Quantidade = carrinhoItem.Quantidade,
                     CapinhaId = carrinhoItem.Capinha.CapinhaId,
-                    ClienteId = cliente.ClienteId,
+                    ClienteId = cliente.ClienteId, // Associar o ClienteId correto
                     Preco = carrinhoItem.Capinha.Preco,
                     PedidoTotal = carrinhoItem.Capinha.Preco * carrinhoItem.Quantidade,
-                    TotalItensPedido =  clienteEPedidoViewModel.TotalItensPedido 
+                    TotalItensPedido = clienteEPedidoViewModel.TotalItensPedido
                 };
 
                 _appDbContext.ClientePedidos.Add(clientePedido);
-                clienteEPedidoViewModel.ClienteId = clientePedido.ClienteId;
-                clienteEPedidoViewModel.PedidoEnviado = clientePedido.PedidoEnviado;
+                pedidosCriados.Add(clientePedido);
             }
 
             _appDbContext.SaveChanges();
 
+            return pedidosCriados;
         }
 
         public List<ClientePedido> GetPedidosDoCliente(int clienteId)
