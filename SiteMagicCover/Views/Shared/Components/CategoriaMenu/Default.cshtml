@@ -29,10 +29,13 @@
             }
         }
         <li class="dropdown-divider"></li>
-        <li>
-            <a class="dropdown-item" asp-controller="Capinha" asp-action="Listar" style="color:black"
-               asp-route-categoria="Suas Capinhas">Suas Capinhas</a>
-        </li>
+        @if (User.Identity.IsAuthenticated)
+        {
+            <li>
+                <a class="dropdown-item" asp-controller="Capinha" asp-action="Listar" style="color:black"
+                   asp-route-categoria="Suas Capinhas">Suas Capinhas</a>
+            </li>
+        } 
         <li>
             <a class="dropdown-item" asp-controller="Capinha" asp-action="Listar" style="color:black"
                asp-route-categoria="">Todas as Capinhas</a>

@@ -1,4 +1,4 @@
-﻿@model Capinha // foi usando model embaixo, porque ele representa a Classe Capinha
+﻿@model Capinha // foi usado model, porque ele representa a Classe Capinha
  <style>
     .imagem-capinha {
         width: 200px; /* Largura  */
@@ -21,6 +21,15 @@
             <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0" />
         </svg>
     </button>
+    
+    @if (Model.CategoriaId == 3)
+    {
+        <a asp-controller="Capinha" asp-action="Delete" asp-route-capinhaId="@Model.CapinhaId" type="submit" class="btn btn-danger">Deletar</a>
+        
+    }
+
+
+
 
     <div class="modal fade" id="CapinhaModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -39,3 +48,5 @@
         </div>
     </div>
 </div>
+
+

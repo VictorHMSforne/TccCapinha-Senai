@@ -10,10 +10,22 @@
 
 <div class="container">
     <div class="row">
-        @foreach (var capinha in Model.Capinhas) // essa variável Model, ela personaliza o @model, ou seja, vai personalizar os Modelos capinha
+        @if (ViewData["Mensagem"] != null)
         {
-            <partial name="_CapinhasResumo" for="@capinha" />
+                <div class="alert alert-info">
+                   @ViewData["Mensagem"]
+                </div>
+                <a class="btn btn-primary" href="@Url.Action("Customizar", "CapinhaPerso")">Personalizar Capinha :)</a>
         }
+        else
+        {
+            @foreach (var capinha in Model.Capinhas) // essa variável Model, ela personaliza o @model, ou seja, vai personalizar os Modelos capinha
+            {
+                    <partial name="_CapinhasResumo" for="@capinha" />
+               
+            }
+        }
+        
     </div>
 </div>
 

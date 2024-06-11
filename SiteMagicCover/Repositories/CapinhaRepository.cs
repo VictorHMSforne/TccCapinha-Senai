@@ -20,5 +20,21 @@ namespace SiteMagicCover.Repositories
         {
             return _context.Capinhas.FirstOrDefault(c => c.CapinhaId == capinhaId);
         }
+
+
+        //adicionei
+        public IQueryable<Capinha> Capinhass => _context.Capinhas;
+
+        public void DeleteCapinha(Capinha capinha)
+        {
+            _context.Capinhas.Remove(capinha);
+        }
+
+        public void Save()
+        {
+            _context.SaveChanges();
+        }
+
+
     }
 }

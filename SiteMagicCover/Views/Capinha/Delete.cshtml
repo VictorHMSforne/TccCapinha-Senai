@@ -1,0 +1,15 @@
+﻿@{
+    ViewData["Title"] = "Exclusão Confirmada";
+}
+@model Capinha
+
+<h2>Exclusão da Capinha</h2>
+<hr />
+<p>Você tem certeza que deseja excluir a capinha "@Model.NomeCelular"?</p>
+
+<form asp-controller="Capinha" asp-action="DeleteConfirmed" method="post">
+    <input type="hidden" asp-for="CapinhaId" />
+    <button type="submit" class="btn btn-danger">Sim, excluir</button>
+    <a asp-controller="Capinha" asp-action="Listar" class="btn btn-secondary">Cancelar</a>
+</form>
+

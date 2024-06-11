@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using SiteMagicCover.Models;
 using SiteMagicCover.Repositories.Interfaces;
 using SiteMagicCover.ViewModels;
+using System.Security.Claims;
 
 namespace SiteMagicCover.Controllers
 {
@@ -58,5 +59,9 @@ namespace SiteMagicCover.Controllers
 
             return RedirectToAction("Index");
         }
+
+        
+
+
     }
 }

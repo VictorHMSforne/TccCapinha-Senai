@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Hosting;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using SiteMagicCover.Context;
 using SiteMagicCover.Models;
@@ -19,7 +20,7 @@ namespace SiteMagicCover.Controllers
         }
 
 
-
+        [Authorize]
         // GET: Capinhas/Customizar
         public IActionResult Customizar()
         {
@@ -27,6 +28,7 @@ namespace SiteMagicCover.Controllers
         }
 
         // POST: Capinhas/Customizar
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Customizar(CapinhaViewModel viewModel, string finalImage)
@@ -122,7 +124,8 @@ namespace SiteMagicCover.Controllers
 
                 _context.Add(capinha);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index)); // Assuming you have an Index action to display capinhas
+                return RedirectToAction("Listar", "Capinha", new { categoria = "Suas Capinhas" });
+                // Assuming you have an Index action to display capinhas
             }
             return View(viewModel);
         }

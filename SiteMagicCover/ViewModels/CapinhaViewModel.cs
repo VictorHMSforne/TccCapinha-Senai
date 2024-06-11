@@ -29,7 +29,7 @@ namespace SiteMagicCover.ViewModels
 
         public bool IsPersonalizada { get; set; }
 
-       // public IFormFile ImagemFile { get; set; }
+        public int CapinhaId { get; set; }
 
         public int CategoriaId { get; set; }
     }
