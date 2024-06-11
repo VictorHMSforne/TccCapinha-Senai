@@ -20,11 +20,19 @@
     <ul class="dropdown-menu">
         @foreach (var categoria in Model)
         {
-            <li><a class="dropdown-item"  asp-controller="Capinha" asp-action="Listar" style="color:black" 
-                asp-route-categoria="@categoria.CategoriaNome">@categoria.CategoriaNome</a>
-            </li>
+            @if (categoria.CategoriaNome == "Padrao" || categoria.CategoriaNome == "Tech")
+            {
+                <li>
+                    <a class="dropdown-item" asp-controller="Capinha" asp-action="Listar" style="color:black"
+               asp-route-categoria="@categoria.CategoriaNome">@categoria.CategoriaNome</a>
+                </li>
+            }
         }
         <li class="dropdown-divider"></li>
+        <li>
+            <a class="dropdown-item" asp-controller="Capinha" asp-action="Listar" style="color:black"
+               asp-route-categoria="Suas Capinhas">Suas Capinhas</a>
+        </li>
         <li>
             <a class="dropdown-item" asp-controller="Capinha" asp-action="Listar" style="color:black"
                asp-route-categoria="">Todas as Capinhas</a>

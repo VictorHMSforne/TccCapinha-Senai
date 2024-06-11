@@ -2,6 +2,7 @@
 using SiteMagicCover.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using SiteMagicCover.Models;
+using System.Security.Claims;
 
 namespace SiteMagicCover.Controllers
 {
@@ -15,8 +16,7 @@ namespace SiteMagicCover.Controllers
         }
         public IActionResult Listar(string categoria)
         {
-            IEnumerable<Capinha> capinhas;
-            string categoriaAtual = string.Empty;
+
 
             //if (string.IsNullOrEmpty(categoria))
             //{
@@ -33,11 +33,48 @@ namespace SiteMagicCover.Controllers
             //    categoriaAtual = categoria;
             //    ViewData["Titulo"] = categoriaAtual;
             //}
+
+
+            //CODIGO FUNFANDO AQUI:
+            //IEnumerable<Capinha> capinhas;
+            //string categoriaAtual = string.Empty;
+
+
+            //if (string.IsNullOrEmpty(categoria))
+            //{
+            //    capinhas = _capinhaRepository.Capinhas.Where(c => !c.IsPersonalizada).OrderBy(c => c.CapinhaId);
+            //    categoriaAtual = "Todas as Capinhas";
+            //    ViewData["Titulo"] = categoriaAtual;
+            //}
+            //else
+            //{
+            //    capinhas = _capinhaRepository.Capinhas
+            //        .Where(c => c.Categoria.CategoriaNome.Equals(categoria) && !c.IsPersonalizada)
+            //        .OrderBy(c => c.Marca);
+            //    categoriaAtual = categoria;
+            //    ViewData["Titulo"] = categoriaAtual;
+            //}
+            //var capinhasListViewModel = new CapinhaListViewModel
+            //{
+            //    Capinhas = capinhas,
+            //    CategoriaAtual = categoriaAtual
+            //};
+
+            IEnumerable<Capinha> capinhas;
+            string categoriaAtual = string.Empty;
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier); // Obter o ID do usuário logado
+
             if (string.IsNullOrEmpty(categoria))
             {
-                capinhas = _capinhaRepository.Capinhas.Where(c => !c.IsPersonalizada).OrderBy(c => c.CapinhaId);
+                capinhas = _capinhaRepository.Capinhas.OrderBy(c => c.CapinhaId);
                 categoriaAtual = "Todas as Capinhas";
-                ViewData["Titulo"] = categoriaAtual;
+            }
+            else if (categoria.Equals("Suas Capinhas"))
+            {
+                capinhas = _capinhaRepository.Capinhas
+                    .Where(c => c.IsPersonalizada && c.UserId == userId)
+                    .OrderBy(c => c.CapinhaId);
+                categoriaAtual = "Suas Capinhas";
             }
             else
             {
@@ -45,15 +82,15 @@ namespace SiteMagicCover.Controllers
                     .Where(c => c.Categoria.CategoriaNome.Equals(categoria) && !c.IsPersonalizada)
                     .OrderBy(c => c.Marca);
                 categoriaAtual = categoria;
-                ViewData["Titulo"] = categoriaAtual;
             }
+
+            ViewData["Titulo"] = categoriaAtual;
+
             var capinhasListViewModel = new CapinhaListViewModel
             {
                 Capinhas = capinhas,
                 CategoriaAtual = categoriaAtual
             };
-
-            
 
             return View(capinhasListViewModel);
      
