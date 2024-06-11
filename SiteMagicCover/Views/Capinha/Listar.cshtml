@@ -5,6 +5,10 @@
 
 <div>
     <h2>@ViewData["Titulo"]</h2>
+    @if ((string)ViewData["Titulo"] == "Suas Capinhas")
+    {
+            <a class="btn btn-primary" href="@Url.Action("Customizar", "CapinhaPerso")">Personalizar Capinha :)</a>
+    }
 </div>
 <hr />
 
