@@ -1,11 +1,11 @@
 ﻿@model Capinha // foi usado model, porque ele representa a Classe Capinha
- <style>
+<style>
     .imagem-capinha {
         width: 200px; /* Largura  */
         height: auto; /* Altura como "auto" para manter a proporção original da imagem */
     }
 </style>
- 
+
 
 
 <div class="col-sm4 col-md-4 col-lg-4">
@@ -14,18 +14,18 @@
     <h6>@Model.Marca @Model.Modelo</h6>
     <h8>Preço : @Model.Preco.ToString("c")</h8>
     <a class="btn btn-primary" asp-controller="CarrinhoCompra" asp-action="AdicionarItemNoCarrinhoCompra" asp-route-capinhaId="@Model.CapinhaId">Adicionar ao Carrinho</a>
-    
+
     <button type="button" class="btn btn-secondary" style="padding: 0.25rem 0.5rem; font-size: 0.875rem;" data-bs-toggle="modal" data-bs-target="#CapinhaModal">
         <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-info-square" viewBox="0 0 16 16">
             <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z" />
             <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0" />
         </svg>
     </button>
-    
+
     @if (Model.CategoriaId == 3)
     {
         <a asp-controller="Capinha" asp-action="Delete" asp-route-capinhaId="@Model.CapinhaId" type="submit" class="btn btn-danger">Deletar</a>
-        
+
     }
 
 
@@ -39,7 +39,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    Colocar no Model a Descricao Da Capinha
+                    @Model.Categoria.Descricao
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
