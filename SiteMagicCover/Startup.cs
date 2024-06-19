@@ -6,6 +6,7 @@ using SiteMagicCover.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http.Features;
+using SiteMagicCover.Services;
 
 
 namespace SiteMagicCover;
@@ -49,7 +50,15 @@ public class Startup
         services.AddTransient<ICapinhaRepository, CapinhaRepository>(); // revisar esse registro
         services.AddTransient<ICategoriaRepository, CategoriaRepository>();
         services.AddTransient<IClienteRepository, ClienteRepository>();
-
+        services.AddScoped<ISeedUserRoleInitial, SeedUserRoleInitial>();
+        services.AddAuthorization(options =>
+        {
+            options.AddPolicy("Admin",
+                politica =>
+                {
+                    politica.RequireRole("Admin");
+                });
+        });
 
         services.AddScoped<UserManager<IdentityUser>>();
         services.AddScoped<SignInManager<IdentityUser>>(); //QUALQUER COISA VIR AQUI E TIRAR
@@ -80,7 +89,8 @@ public class Startup
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-    public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+    public void Configure(IApplicationBuilder app, 
+        IWebHostEnvironment env, ISeedUserRoleInitial seedUserRoleInitial)
     {
         if (env.IsDevelopment())
         {
@@ -96,6 +106,11 @@ public class Startup
         app.UseStaticFiles();
         app.UseRouting();
 
+        //primeiro cria os perfis
+        seedUserRoleInitial.SeedRoles();
+        //depois cria os Usuários e atribui ao perfil
+        seedUserRoleInitial.SeedUsers();
+
         app.UseSession();
 
         app.UseAuthentication();
@@ -103,6 +118,10 @@ public class Startup
 
         app.UseEndpoints(endpoints =>
         {
+            endpoints.MapControllerRoute(
+                name: "areas",
+                pattern: "{area:exists}/{controller=Admin}/{action=Index}/{id?}");
+
             endpoints.MapControllerRoute(
                 name: "categoriaFiltro",
                 pattern:"Capinha/{action}/{categoria?}",
