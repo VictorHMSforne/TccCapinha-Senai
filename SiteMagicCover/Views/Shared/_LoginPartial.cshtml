@@ -2,15 +2,30 @@
 
 @inject SignInManager<IdentityUser> SignInManager
 
-@if(SignInManager.IsSignedIn(User))
+@if (SignInManager.IsSignedIn(User))
 {
-    <form asp-area="" asp-controller="Account" asp-action="Logout" id="logoutForm" method="post" class="d-flex justify-content-center align-items-center">
-        <button type="submit" style="width:auto" class="nav-link btn btn-link py-0">
-            Logout : @User.Identity.Name &nbsp;
-        </button>
-    </form>
-
+    <div class="dropdown">
+        <a class="btn btn-secondary dropdown-toggle transparent-btn" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+            Conta
+        </a>
+        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuLink">
+            <a class="dropdown-item" asp-area="" asp-controller="Contato" asp-action="Index">Suporte</a>
+            @if (User.IsInRole("Admin"))
+            {
+                <a class="dropdown-item" asp-area="Admin" asp-controller="Admin" asp-action="Index" style="color:purple">Admin</a>
+            }
+            <li class="dropdown-divider"></li>
+            <li>
+                <form asp-area="" asp-controller="Account" asp-action="Logout" id="logoutForm" method="post" class="dropdown-item">
+                    <button type="submit" style="width:auto" class="nav-link btn btn-link py-0">
+                        Logout: @User.Identity.Name &nbsp;
+                    </button>
+                </form>
+            </li>
+        </ul>
+    </div>
 }
+
 else
 {
     <ul class="nav navbar-nav navbar-left">
