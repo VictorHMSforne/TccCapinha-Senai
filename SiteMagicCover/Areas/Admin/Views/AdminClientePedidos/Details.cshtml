@@ -10,45 +10,45 @@
     <h4>ClientePedido</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Preco)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Preco)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Quantidade)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Quantidade)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.PedidoEnviado)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.PedidoEnviado)
+        <dd class="col-sm-10">
+            @Model.PedidoEnviado.ToString("dd/MM/yyyy HH:mm:ss") <!-- Formatação da data/hora -->
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.PedidoEntregueEm)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.PedidoEntregueEm)
+        <dd class="col-sm-10">
+            @Model.PedidoEntregueEm?.ToString("dd/MM/yyyy HH:mm:ss") <!-- Formatação da data/hora (nullable) -->
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Capinha)
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Capinha.Marca)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Capinha.Marca)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Cliente)
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Cliente.ClienteId) <!-- Alterado para exibir o ID -->
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Cliente.CPF)
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Cliente.ClienteId) <!-- Alterado para exibir o ID -->
         </dd>
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.ClientePedidoId">Edit</a> |
+    <a asp-action="Edit" asp-route-id="@Model.ClientePedidoId">Edit</a> |
     <a asp-action="Index">Back to List</a>
 </div>

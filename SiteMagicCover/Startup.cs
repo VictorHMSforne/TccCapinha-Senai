@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http.Features;
 using SiteMagicCover.Services;
+using ReflectionIT.Mvc.Paging;
 
 
 namespace SiteMagicCover;
@@ -83,6 +84,12 @@ public class Startup
             options.MultipartBodyLengthLimit = long.MaxValue;
         });
         services.AddControllersWithViews();
+
+        services.AddPaging(options =>
+        {
+            options.ViewName = "Bootstrap4";
+            options.PageParameterName= "pageindex";
+        });
 
         services.AddMemoryCache();
         services.AddSession();

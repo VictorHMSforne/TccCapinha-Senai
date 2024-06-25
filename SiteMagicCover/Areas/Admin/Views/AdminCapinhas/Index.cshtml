@@ -1,13 +1,26 @@
-﻿@model IEnumerable<SiteMagicCover.Models.Capinha>
+﻿@* @model IEnumerable<SiteMagicCover.Models.Capinha> *@
+@model ReflectionIT.Mvc.Paging.PagingList<SiteMagicCover.Models.Capinha>
 
 @{
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Capinhas</h1>
 
+<form method="get" class="form-inline">
+    <input name="filter" class="form-control" placeholder="Filtre pelo Nome do Celular"
+           value="@Model.RouteValue["filter"]" />
+    <button type="submit" class="btn btn-info">
+        <span class="glyphicon glyphicon-search" aria-hidden="true"></span>Procurar
+    </button>
+</form>
+
+Total de Capinhas : @Model.TotalRecordCount
+<div>
+    <vc:pager paging-list="@Model"></vc:pager>
+</div>
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Criar Capinha</a>
 </p>
 <table class="table">
     <thead>
@@ -23,12 +36,6 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Preco)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ImagemUrl)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ImagemThumbUrl)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Disponibilidade)
@@ -59,12 +66,6 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Preco)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ImagemUrl)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ImagemThumbUrl)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Disponibilidade)

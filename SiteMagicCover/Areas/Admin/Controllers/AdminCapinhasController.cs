@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using ReflectionIT.Mvc.Paging;
 using SiteMagicCover.Context;
 using SiteMagicCover.Models;
 
@@ -23,10 +24,26 @@ namespace SiteMagicCover.Areas.Admin.Controllers
         }
 
         // GET: Admin/AdminCapinhas
-        public async Task<IActionResult> Index()
+        //public async Task<IActionResult> Index()
+        //{
+        //    var appDbContext = _context.Capinhas.Include(c => c.Categoria);
+        //    return View(await appDbContext.ToListAsync());
+        //}
+        public async Task<IActionResult> Index(string filter, int pageindex = 1, string sort = "NomeCelular")
         {
-            var appDbContext = _context.Capinhas.Include(c => c.Categoria);
-            return View(await appDbContext.ToListAsync());
+            var resultado = _context.Capinhas.Include(c => c.Categoria)
+                                             .AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(filter))
+            {
+                resultado = resultado.Where(p => p.NomeCelular.Contains(filter));
+            }
+
+            // Utilize a propriedade correta para ordenação
+            var model = await PagingList.CreateAsync(resultado, 5, pageindex, sort, "NomeCelular");
+            model.RouteValue = new RouteValueDictionary { { "filter", filter } };
+
+            return View(model);
         }
 
         // GET: Admin/AdminCapinhas/Details/5
