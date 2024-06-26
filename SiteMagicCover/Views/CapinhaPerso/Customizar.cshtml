@@ -734,9 +734,10 @@
         }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/konva@8.3.11/konva.min.js"></script>
+    
 </head>
 <body>
-    <h2>Konva.js Layers Example</h2>
+    <h2 align="center">Monte sua Capinha:</h2>
     <form id="customizarForm" asp-action="Customizar" method="post" enctype="multipart/form-data">
         <div class="container">
             <div>
@@ -754,7 +755,7 @@
             </div>
             <div id="konvaContainer" class="konva-container"></div>
             <input accept="image/*" type="file" id="fileInput" class="form-control" />
-            <button type="button" id="downloadButton">Baixar Imagem</button>
+            @*<button type="button" id="downloadButton">Baixar Imagem</button>*@ 
 
             <input type="hidden" id="finalImage" name="FinalImage" />
             <input type="hidden" id="precoHidden" name="Preco" value="40,35" />
@@ -957,35 +958,35 @@
             }
         });
 
-        document.getElementById('downloadButton').addEventListener('click', function () {
-            const tempCanvas = document.createElement('canvas');
-            tempCanvas.width = stage.width();
-            tempCanvas.height = stage.height();
-            const tempContext = tempCanvas.getContext('2d');
+        //document.getElementById('downloadButton').addEventListener('click', function () {
+        //    const tempCanvas = document.createElement('canvas');
+        //    tempCanvas.width = stage.width();
+        //    tempCanvas.height = stage.height();
+        //    const tempContext = tempCanvas.getContext('2d');
 
-            const imageObj = new Image();
-            imageObj.onload = function () {
-                tempContext.beginPath();
-                const radius = 40;
-                tempContext.moveTo(radius, 0);
-                tempContext.arcTo(tempCanvas.width, 0, tempCanvas.width, tempCanvas.height, radius);
-                tempContext.arcTo(tempCanvas.width, tempCanvas.height, 0, tempCanvas.height, radius);
-                tempContext.arcTo(0, tempCanvas.height, 0, 0, radius);
-                tempContext.arcTo(0, 0, tempCanvas.width, 0, radius);
-                tempContext.closePath();
-                tempContext.clip();
+        //    const imageObj = new Image();
+        //    imageObj.onload = function () {
+        //        tempContext.beginPath();
+        //        const radius = 40;
+        //        tempContext.moveTo(radius, 0);
+        //        tempContext.arcTo(tempCanvas.width, 0, tempCanvas.width, tempCanvas.height, radius);
+        //        tempContext.arcTo(tempCanvas.width, tempCanvas.height, 0, tempCanvas.height, radius);
+        //        tempContext.arcTo(0, tempCanvas.height, 0, 0, radius);
+        //        tempContext.arcTo(0, 0, tempCanvas.width, 0, radius);
+        //        tempContext.closePath();
+        //        tempContext.clip();
 
-                tempContext.drawImage(imageObj, 0, 0, tempCanvas.width, tempCanvas.height);
-                const dataURL = tempCanvas.toDataURL();
-                const link = document.createElement('a');
-                link.href = dataURL;
-                link.download = 'customized_image.png';
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-            };
-            imageObj.src = stage.toDataURL();
-        });
+        //        tempContext.drawImage(imageObj, 0, 0, tempCanvas.width, tempCanvas.height);
+        //        const dataURL = tempCanvas.toDataURL();
+        //        const link = document.createElement('a');
+        //        link.href = dataURL;
+        //        link.download = 'customized_image.png';
+        //        document.body.appendChild(link);
+        //        link.click();
+        //        document.body.removeChild(link);
+        //    };
+        //    imageObj.src = stage.toDataURL();
+        //});
 
         const marcaSelect = document.getElementById('marca');
         const modeloSelect = document.getElementById('modelo');
@@ -995,9 +996,9 @@
             const modelos = [];
 
             if (marca === 'Iphone') {
-                modelos.push('15 Pro Max', '14', '13');
+                modelos.push('15 Pro Max');
             } else if (marca === 'Samsung') {
-                modelos.push('S24', 'Note 10', 'A50');
+                modelos.push('S24'/*, 'Note 10', 'A50'*/);
             }
 
             modeloSelect.innerHTML = '';
@@ -1024,29 +1025,21 @@
                     backgroundSrc = '/images/mockups/Iphone15Fundo.png';
                     overlaySrc = '/images/mockups/Iphone15Fundo.png';
                     model = 'Iphone15ProMax';
-                } else if (modelo === '14') {
-                    backgroundSrc = '/images/mockups/Iphone14Fundo.png';
-                    overlaySrc = '/images/mockups/Iphone14Overlay.png';
-                    model = 'Iphone14';
-                } else if (modelo === '13') {
-                    backgroundSrc = '/images/mockups/Iphone13Fundo.png';
-                    overlaySrc = '/images/mockups/Iphone13Overlay.png';
-                    model = 'Iphone13';
                 }
             } else if (marcaSelect.value === 'Samsung') {
                 if (modelo === 'S24') {
                     backgroundSrc = '/images/mockups/SamsungS24Fundo.png';
                     overlaySrc = '/images/mockups/SamsungS24Fundo.png';
                     model = 'SamsungS24';
-                } else if (modelo === 'Note 10') {
-                    backgroundSrc = '/images/mockups/SamsungNote10Fundo.png';
-                    overlaySrc = '/images/mockups/SamsungNote10Overlay.png';
-                    model = 'SamsungNote10';
-                } else if (modelo === 'A50') {
-                    backgroundSrc = '/images/mockups/SamsungA50Fundo.png';
-                    overlaySrc = '/images/mockups/SamsungA50Overlay.png';
-                    model = 'SamsungA50';
-                }
+                } //else if (modelo === 'Note 10') {
+                //    backgroundSrc = '/images/mockups/SamsungNote10Fundo.png';
+                //    overlaySrc = '/images/mockups/SamsungNote10Overlay.png';
+                //    model = 'SamsungNote10';
+                //} else if (modelo === 'A50') {
+                //    backgroundSrc = '/images/mockups/SamsungA50Fundo.png';
+                //    overlaySrc = '/images/mockups/SamsungA50Overlay.png';
+                //    model = 'SamsungA50';
+                //}
             }
 
             setBackgroundImage(backgroundSrc, overlaySrc, model);
