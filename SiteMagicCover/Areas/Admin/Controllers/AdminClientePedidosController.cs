@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using ReflectionIT.Mvc.Paging;
 using SiteMagicCover.Context;
 using SiteMagicCover.Models;
+using SiteMagicCover.ViewModels;
 
 namespace SiteMagicCover.Areas.Admin.Controllers
 {
@@ -22,6 +23,8 @@ namespace SiteMagicCover.Areas.Admin.Controllers
         {
             _context = context;
         }
+
+        
 
         // GET: Admin/AdminClientePedidos
         //public async Task<IActionResult> Index()

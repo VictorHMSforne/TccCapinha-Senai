@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http.Features;
 using SiteMagicCover.Services;
 using ReflectionIT.Mvc.Paging;
+using SiteMagicCover.Areas.Admin.Servicos;
 
 
 namespace SiteMagicCover;
@@ -29,6 +30,9 @@ public class Startup
         services.AddIdentity<IdentityUser, IdentityRole>()
                 .AddEntityFrameworkStores<AppDbContext>()
                 .AddDefaultTokenProviders();
+
+        services.Configure<ConfigurationImagens>
+                (Configuration.GetSection("ConfigurationPastaImagens"));
 
         //services.ConfigureApplicationCookie(options =>
         //{
@@ -52,6 +56,8 @@ public class Startup
         services.AddTransient<ICategoriaRepository, CategoriaRepository>();
         services.AddTransient<IClienteRepository, ClienteRepository>();
         services.AddScoped<ISeedUserRoleInitial, SeedUserRoleInitial>();
+        services.AddScoped<RelatorioVendasService>();
+        
         services.AddAuthorization(options =>
         {
             options.AddPolicy("Admin",
