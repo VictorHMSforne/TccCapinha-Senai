@@ -22,11 +22,13 @@ namespace SiteMagicCover.ViewModels
         public string Sobrenome { get; set; }
 
         [Required(ErrorMessage = "Informe o CPF")]
+        [RegularExpression(@"^\d{11}$", ErrorMessage = "O CPF deve conter 11 dígitos e não pode conter letras")]
         [StringLength(20)]
         public string CPF { get; set; }
 
         [Required(ErrorMessage = "Informe o Telefone")]
         [StringLength(25)]
+        [RegularExpression(@"^\d{10,11}$", ErrorMessage = "O telefone deve conter 10 ou 11 dígitos.")]
         [DataType(DataType.PhoneNumber)]
         public string Telefone { get; set; }
 
