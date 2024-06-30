@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Http.Features;
 using SiteMagicCover.Services;
 using ReflectionIT.Mvc.Paging;
 using SiteMagicCover.Areas.Admin.Servicos;
+using Microsoft.Extensions.Hosting.Internal;
 
 
 namespace SiteMagicCover;
@@ -31,13 +32,13 @@ public class Startup
                 .AddEntityFrameworkStores<AppDbContext>()
                 .AddDefaultTokenProviders();
 
-        services.Configure<ConfigurationImagens>
-                (Configuration.GetSection("ConfigurationPastaImagens"));
+        services.Configure<ConfigurationImagens>(Configuration.GetSection("ConfigurationImagens"));
+        
 
         //services.ConfigureApplicationCookie(options =>
         //{
         //    options.LoginPath = "/Account/Login";    ESSE CODIGO ESTA IMPLÍCITO
-            
+
         //});
 
         // PARA CONFIGURA A SENHA
@@ -57,7 +58,8 @@ public class Startup
         services.AddTransient<IClienteRepository, ClienteRepository>();
         services.AddScoped<ISeedUserRoleInitial, SeedUserRoleInitial>();
         services.AddScoped<RelatorioVendasService>();
-        
+        services.AddScoped<GraficosVendaService>();
+
         services.AddAuthorization(options =>
         {
             options.AddPolicy("Admin",

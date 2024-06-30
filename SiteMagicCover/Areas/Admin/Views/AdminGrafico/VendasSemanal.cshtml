@@ -1,0 +1,67 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Gráfico de Vendas Semanais</title>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+</head>
+<body>
+    <div id="chart_div" style="width: 900px; height: 500px;"></div>
+
+    <script type="text/javascript">
+        google.charts.load('current', { packages: ['corechart'] });
+        google.charts.setOnLoadCallback(CarregaDados);
+
+        function CarregaDados() {
+            $.ajax({
+                url: '@Url.Action("VendasCapinhas", "AdminGrafico")',
+                data: { dias: 7 },
+                dataType: "json",
+                type: "GET",
+                error: function (xhr, status, error) {
+                    var err = eval("(" + xhr.responseText + ")");
+                    toastr.error(err.message);
+                },
+                success: function (data) {
+                    GraficoVendasCapinhas(data);
+                }
+            });
+        }
+
+        function GraficoVendasCapinhas(data) {
+            var dataArray = [
+                ['Capinhas', 'Quantidade', 'Valores(R$)']
+            ];
+
+            $.each(data, function (i, item) {
+                dataArray.push([item.capinhaNome, item.capinhasQuantidae, item.capinhasValorTotal]);
+            });
+
+            var dataTable = google.visualization.arrayToDataTable(dataArray);
+
+            var options = {
+                title: 'Capinhas - Vendas nos últimos 7 dias',
+                curveType: 'function',
+                legend: {position : 'bottom'},
+                chartArea: { width: '70%' },
+                colors: ['#5202b5', '#d2a828'],
+                hAxis: { title: 'Capinhas' },
+                vAxis: { title: 'Quantidade e Valores(R$)', minValue: 0 },
+                series: {
+                    0: { targetAxisIndex: 0 },
+                    1: { targetAxisIndex: 1 }
+                },
+                vAxes: {
+                    0: { title: 'Quantidade' },
+                    1: { title: 'Valores(R$)' }
+                }
+            };
+
+            var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+            chart.draw(dataTable, options);
+        }
+    </script>
+</body>
+</html>

@@ -2,7 +2,7 @@
 
 <table class="table">
     <tr>
-        <td><h6>Lembrar de Mudar o Front do Login</h6></td>
+        <td><h6>Registrar</h6></td>
         <td>
             <div class="row">
                 <div class="col-12 col-md-12 col-lg-12">
@@ -25,7 +25,9 @@
                             <label asp-for="Password" class="col-md-2 control-label"></label>
                             <input asp-for="Password" class="form-control" />
                             <span asp-validation-for="Password" class="text-danger"></span>
-
+                            <small class="form-text text-muted">
+                                A senha deve conter: Um caractere maiúsculo, um minúsculo, um alfanumérico, um número e no mínimo 6 dígitos.
+                            </small>
                         </div>
                         <br />
                         <div class="form-group">
