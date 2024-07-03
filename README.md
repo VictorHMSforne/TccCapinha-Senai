@@ -1,4 +1,4 @@
-# LanchesMac
+# Magic Cover
 
 Vídeo Feito para o TCC: https://youtu.be/FPCDmyWC9oE
 
